@@ -1,0 +1,31 @@
+{% block menu %}
+<div class="blog-menu">
+    <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+        <div class="container w-100">
+            <div class="row align-items-center w-100">
+                <div class="col-12 col-md-4">
+                    <div class="logo text-white">
+                        Blog P5
+                    </div>
+                </div>
+                <div class="col-12 col-md-8">
+                <div></div>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuBlog" aria-controls="menuBlog" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-end" id="menuBlog">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ baseurl }}">Accueil</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ baseurl }}/articles">Articles</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
+{% endblock %}
