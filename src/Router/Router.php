@@ -74,6 +74,7 @@ class Router
 
     /**
      * Call the callable or controller with method
+     * @return mixed
      */
     public function call()
     {
