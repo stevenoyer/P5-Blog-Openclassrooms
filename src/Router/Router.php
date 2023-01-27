@@ -16,12 +16,11 @@ class Router
      * @param string $path
      * @param callable|string $action
      * 
-     * @return void
+     * @return callable|string
      */
-    public function post(string $path, callable|string $action)
+    public function post(string $path, callable|string $action): callable|string
     {
         return $this->add($path, $action, 'POST');
-        $this->routes['POST'][$path] = $action;
     }
 
     /**
@@ -29,12 +28,11 @@ class Router
      * @param string $path
      * @param callable|string $action
      * 
-     * @return void
+     * @return callable|string
      */
-    public function get(string $path, callable|string $action)
+    public function get(string $path, callable|string $action): callable|string
     {
         return $this->add($path, $action, 'GET');
-        $this->routes['GET'][$path] = $action;
     }
 
     /**
@@ -76,7 +74,7 @@ class Router
      * Call the callable or controller with method
      * @return mixed
      */
-    public function call()
+    public function call(): mixed
     {
         // If callable, return method
         if (is_callable($this->action))
@@ -114,8 +112,9 @@ class Router
     /**
      * This function processes the routes
      * @param string $uri
+     * @return bool
      */
-    public function run(string $uri): mixed
+    public function run(string $uri): bool
     {
         $this->action = false;
 
