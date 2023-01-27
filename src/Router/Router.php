@@ -72,6 +72,9 @@ class Router
         return true;
     }
 
+    /**
+     * Call the callable or controller with method
+     */
     public function call()
     {
         // If callable, return method
