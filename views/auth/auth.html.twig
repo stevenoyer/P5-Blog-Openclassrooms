@@ -1,0 +1,71 @@
+{% extends "default.html.twig" %}
+
+{% block header %}
+    {% include "layouts/menu.html.twig" %}
+{% endblock %}
+
+{% block main %}
+    <div id="auth" class="container-fluid container mt-5">
+        <div class="my-5">
+            <h1>Formulaire d'authentification</h1>
+        </div>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <button class="nav-link active" id="form-login-tab" data-bs-toggle="tab" data-bs-target="#form-login" type="button" role="tab" aria-controls="form-login" aria-selected="true">Se connecter</button>
+            <button class="nav-link" id="form-login-tab" data-bs-toggle="tab" data-bs-target="#form-register" type="button" role="tab" aria-controls="form-register" aria-selected="false">S'inscrire</button>
+        </div>
+
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="form-login" role="tabpanel" aria-labelledby="form-login">
+                <div class="mt-3 p-5">
+                    <h2>Se connecter</h2>
+                    <form action="{{ baseurl }}/login" method="POST">
+                        <div class="mb-3">
+                            <label for="emailInput" class="form-label">Adresse e-mail</label>
+                            <input type="email" class="form-control" name="email" id="emailInput" placeholder="john.doe@example.com">
+                        </div>
+        
+                        <div class="mb-3">
+                            <label for="passwordInput" class="form-label">Mot de passe</label>
+                            <input type="password" class="form-control" name="password" id="passwordInput" placeholder="*******************">
+                        </div>
+        
+                        <div class="mb-3 d-flex justify-content-end">
+                            <input class="btn-primary-blog mt-3" type="submit" name="submit" value="Se connecter">
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="form-register" role="tabpanel" aria-labelledby="form-register">
+                <div class="mt-3 p-5">
+                    <h2>Inscription</h2>
+                    <form action="{{ baseurl }}/register" method="POST">
+                        <div class="mb-3">
+                            <label for="nameInput" class="form-label">Nom et prénom</label>
+                            <input type="text" class="form-control" name="name" id="nameInput" placeholder="Doe John">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="emailInput" class="form-label">Adresse e-mail</label>
+                            <input type="email" class="form-control" name="email" id="emailInput" placeholder="john.doe@example.com">
+                        </div>
+        
+                        <div class="mb-3">
+                            <label for="passwordInput" class="form-label">Mot de passe</label>
+                            <input type="password" class="form-control" name="password" id="passwordInput" placeholder="*******************">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="passwordConfirmInput" class="form-label">Confirmer le mot de passe</label>
+                            <input type="password" class="form-control" name="confirm_password" id="passwordConfirmInput" placeholder="*******************">
+                        </div>
+        
+                        <div class="mb-3 d-flex justify-content-end">
+                            <input class="btn-primary-blog mt-3" type="submit" name="submit" value="Se connecter">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
