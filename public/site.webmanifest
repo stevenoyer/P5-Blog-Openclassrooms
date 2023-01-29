@@ -1,0 +1,14 @@
+{
+  "name": "Blog P5 OpenClassrooms",
+  "short_name": "P5 OC",
+  "start_url": "./?utm_source=web_app_manifest",
+  "display": "standalone",
+  "icons": [{
+    "src": "favicon",
+    "sizes": "192x256",
+    "type": "image/x-icon"
+  }],
+  "related_applications": [{
+    "platform": "web"
+  }]
+}
