@@ -4,8 +4,9 @@ namespace So\Blog\Class;
 
 use Exception;
 use Twig\Environment;
-use Twig\Extension\DebugExtension;
 use Twig\Loader\FilesystemLoader;
+use Twig\Extension\DebugExtension;
+use Twig\Extra\Intl\IntlExtension;
 
 class Controller
 {
@@ -13,16 +14,6 @@ class Controller
     protected $templatesPath = ROOT . '/views';
     protected $twig;
     public string $name;
-
-    /**
-     * This class allows you to call the model and return it
-     * @return Class
-     */
-    public function getModel()
-    {
-        $model_name = '\So\Blog\Model\\' . ucfirst($this->name) . 'Model';
-        return new $model_name();
-    }
 
     public function __construct()
     {
@@ -32,6 +23,28 @@ class Controller
         // Config environment twig
         $this->twig = new Environment($this->loader, ['cache' => false, 'debug' => true]);
         $this->twig->addExtension(new DebugExtension);
+        $this->twig->getExtension(\Twig\Extension\CoreExtension::class)->setTimezone('Europe/Paris');
+        
+        if (!empty($_SESSION))
+        {
+            $this->twig->addGlobal('session', $_SESSION);
+        }
+    }
+
+    /**
+     * This class allows you to call the model and return it
+     * @return Class
+     */
+    public function getModel(string $model_name = '')
+    {
+        if (empty($model_name))
+        {
+            $model_name = '\So\Blog\Model\\' . ucfirst($this->name) . 'Model';
+            return new $model_name();
+        }
+
+        $model_name = '\So\Blog\Model\\' . $model_name . 'Model';
+        return new $model_name();
     }
 
     /**
@@ -80,11 +93,12 @@ class Controller
 
     /**
      * Method not found, setting up the header and calling the template
+     * @param string $error
      */
-    public function notFound()
+    public function notFound(string $error)
     {
         header('HTTP/1.0 404 Not Found');
-        echo $this->render('errors/404.html.twig');
+        echo $this->render('errors/404.html.twig', ['error' => $error]);
         exit;
     }
 }
