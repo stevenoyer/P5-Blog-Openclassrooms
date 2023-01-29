@@ -2,13 +2,13 @@
 
 namespace So\Blog\Auth;
 
-use So\Blog\Class\Database;
-use So\Blog\Class\Model;
-use So\Blog\Controller\AuthController;
-use So\Blog\Interface\Auth as InterfaceAuth;
 use stdClass;
+use So\Blog\Class\Model;
+use So\Blog\Class\Database;
+use So\Blog\Interface\AuthInterface;
+use So\Blog\Controller\AuthController;
 
-class Auth implements InterfaceAuth
+class Auth implements AuthInterface
 {
     private $controller;
     private $model;
@@ -61,7 +61,7 @@ class Auth implements InterfaceAuth
     public function verifyAccount(array|object $params = []): bool
     {
         $user = $this->model->findByMail($params['email']);
-        if (empty($user) || $user == false)
+        if (empty($user) || $user === false)
         {
             return false;
         }
