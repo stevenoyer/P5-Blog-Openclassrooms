@@ -1,5 +1,6 @@
 {
     "name": "stevenoyer/blog_p5",
+    "license": "proprietary",
     "autoload": {
         "psr-4": {
             "So\\Blog\\": "src/"
