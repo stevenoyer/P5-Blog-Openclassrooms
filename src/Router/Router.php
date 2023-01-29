@@ -126,6 +126,7 @@ class Router
             {
                 // Implementation of the action
                 $this->action = $this->routes[$_SERVER['REQUEST_METHOD']][$path] ?? null;
+
                 echo $this->call();
                 return true;
             }
