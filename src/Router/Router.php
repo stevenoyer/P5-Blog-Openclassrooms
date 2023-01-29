@@ -135,4 +135,5 @@ class Router
         // Else return Exception
         throw new Exception('This route does not exist.');
     }
+
 }

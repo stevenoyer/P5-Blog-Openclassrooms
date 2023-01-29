@@ -18,4 +18,5 @@ class UsersController extends Controller
         $user = $this->getModel()->find($_SESSION['id']);
         return $this->render('users/profil.html.twig', ['user' => $user]);
     }
+
 }

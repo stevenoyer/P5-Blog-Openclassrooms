@@ -145,4 +145,5 @@ class Model
 
         return $this->db->query($statement, $one);
     }
+
 }

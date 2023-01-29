@@ -12,4 +12,5 @@ class HomeController extends Controller
         $data = $model->read();
         return $this->render('home/index.html.twig', $data);
     }
+    
 }
