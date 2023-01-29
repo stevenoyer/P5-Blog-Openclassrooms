@@ -1,0 +1,101 @@
+* {
+    font-family: 'Oxygen', sans-serif;
+}
+
+body {
+    scroll-behavior: smooth;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Days One', sans-serif;
+}
+
+.header .header-inner {
+    height: 100vh;
+    width: 100%;
+    background-color: #FBAB7E;
+    background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%);
+}
+
+.header .logo a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1em;
+}
+
+.portfolio {
+    width: 100%;
+    height: calc(100% - 80px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+} 
+
+.portfolio .avatar {
+    user-select: none;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.portfolio .avatar img {
+    width: 200px;
+    height: 200px;
+    user-select: none;
+    object-fit: cover;
+    object-position: top;
+    transition: all .3s ease-in-out;
+}
+
+.portfolio .avatar img:hover {
+    transform: scale(1.05);
+    transition: all .3s ease-in-out;
+}
+
+.portfolio h1 {
+    margin-top: 30px;
+}
+
+.btn-primary-blog {
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 15px 45px;
+    background-image: linear-gradient(to right, #232526 0%, #414345 51%, #232526 100%);
+    transition: .5s;
+    text-align: center;
+    text-transform: uppercase;
+    background-size: 200% auto;
+}
+
+.btn-primary-blog:hover {
+    color: #fff;
+    background-position: right center;
+    text-decoration: none;
+}
+
+.blog-menu nav.navbar {
+    padding: 20px;
+    background-image: linear-gradient(to right, #232526 0%, #414345 51%, #232526 100%);
+    background-size: 200% auto;
+    transition: .5s;
+}
+
+.blog-menu nav.navbar:hover {
+    background-position: right center;
+}
+
+.contact form {
+    padding: 30px;
+    border: 2px solid #232526;
+    border-radius: 10px;
+}
+
+@media screen and (min-width: 540px) {
+    .header .logo a {
+        font-size: 1.5em;
+    }
+}
