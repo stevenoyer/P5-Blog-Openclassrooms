@@ -1,5 +1,6 @@
 <?php
 
+use So\Blog\Auth\Auth;
 use So\Blog\Class\Controller;
 use So\Blog\Router\Router;
 use Tracy\Debugger;
@@ -13,6 +14,7 @@ require '../vendor/autoload.php';
 require CONFIG;
 
 // Call Config & controller
+$auth = new Auth;
 $config = new Config();
 $ctrl = new Controller;
 
@@ -24,23 +26,32 @@ if ($config->debug)
 
 // Calling the router and defining routes
 $router = new Router();
+
+// Articles
 $router->get('/', 'HomeController@index');
-$router->get('/articles', 'ArticlesController@show');
+$router->get('/articles', 'ArticlesController@index');
+$router->get('/article/:id', 'ArticlesController@single');
+
+// Authentication
+$router->get('/auth', 'AuthController@index');
+$router->get('/logout', 'AuthController@logout');
+$router->post('/login', 'AuthController@login');
+$router->post('/register', 'AuthController@register');
+
+// Users
+$router->get('/profil', 'UsersController@profil');
+
 
 // Processing the url
-$explode_uri = explode('/', $_SERVER['REQUEST_URI']);
-if (is_array($explode_uri) && !empty($explode_uri))
-{
-    $uri = explode('/', $_SERVER['REQUEST_URI']);
-    $uri = end($uri);
-}
+$uri = str_replace(dirname($_SERVER['PHP_SELF']), '', $_SERVER['REQUEST_URI']);
 
 try 
 {
+    $auth->init();
     $router->run($uri);
 }
 catch (\Exception $e) 
 {
-    $ctrl->notFound();
+    $ctrl->notFound($e->getMessage());
     exit;
 }
