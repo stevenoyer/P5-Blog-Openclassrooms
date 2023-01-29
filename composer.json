@@ -1,5 +1,7 @@
 {
     "name": "stevenoyer/blog_p5",
+    "description": "Le projet est donc de développer votre blog professionnel.",
+    "license": "proprietary",
     "autoload": {
         "psr-4": {
             "So\\Blog\\": "src/"
