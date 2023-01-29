@@ -77,7 +77,7 @@ class Controller
         } 
         catch (\Exception $e) 
         {
-            die($e->getMessage());
+            return $this->notFound($e->getMessage());
         }
     }
 
@@ -88,7 +88,7 @@ class Controller
     {
         header('HTTP/1.0 403 Forbiden');
         echo $this->render('errors/403.html.twig');
-        exit;
+        return true;
     }
 
     /**
@@ -99,6 +99,6 @@ class Controller
     {
         header('HTTP/1.0 404 Not Found');
         echo $this->render('errors/404.html.twig', ['error' => $error]);
-        exit;
+        return true;
     }
 }
