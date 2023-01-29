@@ -7,7 +7,7 @@ use Tracy\Debugger;
 
 define('ROOT', dirname(__DIR__));
 define('CONFIG', dirname(__DIR__) . '/configuration.php');
-define('BASEURL', $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER["REQUEST_URI"] . '?'));
+define('BASEURL', 'http://' . $_SERVER['HTTP_HOST'] . rtrim(dirname($_SERVER['PHP_SELF']), '/\\'));
 
 // Require autoload
 require '../vendor/autoload.php';
