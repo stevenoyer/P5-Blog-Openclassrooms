@@ -46,7 +46,7 @@ class AuthController extends Controller
         }
 
         $user = $this->getModel('users')->findByMail($email);
-        if (empty($user) || $user == false)
+        if (empty($user) || $user === false)
         {
             return $this->render('auth/auth.html.twig', ['error' => ['login' => 'L\'utilisateur ou le mot de passe est incorrect.']]);
         }
@@ -131,4 +131,5 @@ class AuthController extends Controller
             $this->redirect(BASEURL);
         }
     }
+
 }

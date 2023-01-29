@@ -101,4 +101,5 @@ class Controller
         echo $this->render('errors/404.html.twig', ['error' => $error]);
         return true;
     }
+    
 }

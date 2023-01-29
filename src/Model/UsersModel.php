@@ -24,4 +24,5 @@ class UsersModel extends Model
         
         return $this->query("SELECT * FROM $this->table WHERE email = ?", [$email], true);
     }
+
 }
