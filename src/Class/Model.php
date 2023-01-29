@@ -17,68 +17,132 @@ class Model
         }
 
         $this->table = rtrim(strtolower($this->table));
+        $this->db = new Database();
     }
 
-    public function read()
+    /**
+     * @param int $limit
+     * 
+     * @return array|object
+     */
+    public function read(int $limit = 5): array|object
     {
-        // Return query("SELECT * FROM $this->table");
+        return $this->db->query("SELECT * FROM $this->table LIMIT $limit");
     } 
 
-    public function create(array $fields = []): void
+    /**
+     * Create an item
+     * @param array $fields
+     * 
+     * @return mixed
+     */
+    public function create(array $fields = []): mixed
     {
-        // empty($fields) return throw new Exception
+        if (empty($fields))
+        {
+            return throw new Exception('No values have been sent.');
+        }
+
+        $sql_parts = [];
+        $attributes = [];
+        $sql = '';
+
         /**
-         * Else
-         * 
-         * foreach ($fields as $key => $value) => 
-         *                                      $key = column name
-         *                                      $value = value in column name
-         *      $sql_parts[] = "$key = ?",
-         *      $attributes[] = $value;
-         * 
-         * $sql = implode(', ', $sql_parts);
-         * prepare("INSERT INTO $this->table SET $sql", $attributes, true);
+         * $key = column name
+         * $value = value in column name
          */
+        foreach ($fields as $key => $value)
+        {
+            $sql_parts[] = "$key = ?";
+            $attributes[] = $value;
+        }
+
+        $sql = implode(', ', $sql_parts);
+        return $this->query("INSERT INTO $this->table SET $sql", $attributes, true);
     }
 
-    public function update(int $id, array $fields = []): void
+    /**
+     * Update an item
+     * @param int $id
+     * @param array $fields
+     * 
+     * @return mixed
+     */
+    public function update(int $id, array $fields = []): mixed
     {
-        // empty($fields) return throw new Exception
-        // empty($id) return throw new Exception
+        if (empty($id))
+        {
+            return throw new Exception('Please indicate the item ID');
+        }
+
+        if (empty($fields))
+        {
+            return throw new Exception('Please indicate the values');
+        }
+
+        $sql_parts = [];
+        $attributes = [];
+        $sql = '';
+
         /**
-         * Else
-         * 
-         * foreach ($fields as $key => $value) => 
-         *                                      $key = column name
-         *                                      $value = value in column name
-         *      $sql_parts[] = "$key = ?",
-         *      $attributes[] = $value;
-         * 
-         * $sql = implode(', ', $sql_parts);
-         * prepare("UPDATE $this->table SET $sql WHERE id = ?", $attributes, true);
+         * $key = column name
+         * $value = value in column name
          */
+        foreach ($fields as $key => $value)
+        {
+            $sql_parts[] = "$key = ?";
+            $attributes[] = $value;
+        }
+
+        $sql = implode(', ', $sql_parts);
+        return $this->query("UPDATE $this->table SET $sql WHERE id = ?", $attributes, true);
     }
 
-    public function delete(int $id): void
+    /**
+     * Delete an item
+     * @param int $id
+     * @return bool
+     */
+    public function delete(int $id): bool
     {
-        // empty($id) return throw new Exception
-        // Return query("DELETE FROM $this->table WHERE id = ?", [$id], true);
+        if (empty($id))
+        {
+            return throw new Exception('Please indicate the item ID');
+        } 
+
+        return $this->query("DELETE FROM $this->table WHERE id = ?", [$id], true);
     }
 
-    public function find(int $id): void
+    /**
+     * Find item by id
+     * @param int $id
+     * @return array|object
+     */
+    public function find(int $id): array|object
     {
-        // empty($id) return throw new Exception
-        // Return query("SELECT * FROM $this->table WHERE id = ?", [$id], true);
+        if (empty($id))
+        {
+            return throw new Exception('Please indicate the item ID');
+        } 
+        
+        return $this->query("SELECT * FROM $this->table WHERE id = ?", [$id], true);
     }
 
-    public function query(string $statement, array $values = null, bool $one = false): void
+    /**
+     * Custom query
+     * @param string $statement
+     * @param array|null $values
+     * @param bool $one
+     * 
+     * @return mixed
+     */
+    public function query(string $statement, array $values = null, bool $one = false): mixed
     {
-        // Custom query
-        /**
-         * if (!empty($values)):
-         *      return prepare($statement, $values, $one)
-         * else:
-         *      return query($statement, $one)
-         */
+        if (!empty($values))
+        {
+            return $this->db->prepare($statement, $values, $one);
+        }
+
+        return $this->db->query($statement, $one);
     }
 }
