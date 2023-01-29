@@ -4,9 +4,16 @@
     Erreur 404
 {% endblock %}
 
-{% block body %}
+{% block header %}
+    {% include "layouts/menu.html.twig" %}
+{% endblock %}
+
+{% block main %}
     <div class="container mt-5">
         <h1>Erreur 404</h1>
         <p>La page que vous essayez d'accéder n'existe pas ou plus.</p>
+        {% if error %}
+            <p class="text-danger"><b>Message :</b> {{ error }}</p>
+        {% endif %}
     </div>
 {% endblock %}
