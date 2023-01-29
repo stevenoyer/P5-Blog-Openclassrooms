@@ -2,10 +2,11 @@
 
 namespace So\Blog\Interface;
 
-interface Auth 
+interface AuthInterface 
 {
     public function register(array|object $params = []): bool;
     public function login(array|object $params = []): bool;
     public function verifyAccount(array|object $params = []): bool;
     public function logout(): bool;
+
 }
