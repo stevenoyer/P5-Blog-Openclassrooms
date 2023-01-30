@@ -9,11 +9,14 @@ use stdClass;
 
 class AuthController extends Controller
 {
+    private function getAuth(): object
+    {
+        return new Auth();
+    }
 
     public function index()
     {
-        $auth = new Auth();
-        if ($auth->isConnected())
+        if ($this->getAuth()->isConnected())
         {
             return $this->redirect(BASEURL . '/profil');
         }
@@ -23,9 +26,7 @@ class AuthController extends Controller
 
     public function login()
     {
-        $auth = new Auth();
-
-        if ($auth->isConnected())
+        if ($this->getAuth()->isConnected())
         {
             return $this->redirect(BASEURL . '/profil');
         }
@@ -34,6 +35,16 @@ class AuthController extends Controller
 
         $email = trim($email);
         $password = trim($password);
+
+        if (empty($token))
+        {
+            return $this->redirect(BASEURL . '/auth');
+        }
+
+        if (!$this->csrf->verif($token))
+        {
+            return $this->redirect(BASEURL . '/auth');
+        }
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL))
         {
@@ -56,7 +67,7 @@ class AuthController extends Controller
             return $this->render('auth/auth.html.twig', ['error' => ['login' => 'L\'utilisateur ou le mot de passe est incorrect.']]);
         }
 
-        if ($auth->login($user))
+        if ($this->getAuth()->login($user))
         {
             return $this->redirect(BASEURL . '/profil');
         }
@@ -66,13 +77,23 @@ class AuthController extends Controller
 
     public function register()
     {
-        $auth = new Auth();
-        if ($auth->isConnected())
+        if ($this->getAuth()->isConnected())
         {
             return $this->redirect(BASEURL . '/profil');
         }
 
         extract($_POST);
+
+        if (empty($token))
+        {
+            return $this->redirect(BASEURL . '/auth');
+        }
+
+        if ($this->csrf->verif($token))
+        {
+            return $this->redirect(BASEURL . '/auth');
+        }
+
         if (empty($name))
         {
             return $this->render('auth/auth.html.twig', ['error' => ['register' => 'Veuillez vérifier votre nom et prénom.', 'name' => $name]]);
@@ -108,8 +129,7 @@ class AuthController extends Controller
         $validator = new FormValidatorHtml($_POST);
         $data = $validator->validate();
 
-        $auth = new Auth();
-        if ($auth->register($data))
+        if ($this->getAuth()->register($data))
         {
             return $this->redirect(BASEURL . '/auth');
         }
@@ -119,14 +139,12 @@ class AuthController extends Controller
 
     public function logout()
     {
-        $auth = new Auth();
-
-        if (!$auth->isConnected())
+        if (!$this->getAuth()->isConnected())
         {
             return $this->redirect(BASEURL . '/auth');
         }
 
-        if ($auth->logout())
+        if ($this->getAuth()->logout())
         {
             $this->redirect(BASEURL);
         }
