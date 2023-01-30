@@ -3,6 +3,8 @@
 namespace So\Blog\Class;
 
 use Exception;
+use So\Blog\Auth\Auth;
+use So\Blog\Security\CsrfToken;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 use Twig\Extension\DebugExtension;
@@ -14,6 +16,7 @@ class Controller
     protected $templatesPath = ROOT . '/views';
     protected $twig;
     public string $name;
+    protected $csrf;
 
     public function __construct()
     {
@@ -29,6 +32,9 @@ class Controller
         {
             $this->twig->addGlobal('session', $_SESSION);
         }
+
+        $this->csrf = new CsrfToken();
+        $this->twig->addGlobal('securityToken', $this->csrf->generate());
     }
 
     /**
