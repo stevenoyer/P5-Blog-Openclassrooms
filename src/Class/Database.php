@@ -28,7 +28,7 @@ class Database
     /**
      * @return \PDO instance of pdo
      */
-    private function getDB()
+    private function getDB(): \PDO
     {
         if (is_null($this->pdo))
         {
@@ -46,7 +46,7 @@ class Database
      * 
      * @return Object|Array
      */
-    public function query($statement, $one = false)
+    public function query($statement, $one = false): array|object|bool
     {
         $req = $this->getDB()->query($statement);
 
@@ -77,10 +77,8 @@ class Database
      * @param string $statement
      * @param array $values
      * @param bool $one
-     * 
-     * @return Object|Array
      */
-    public function prepare($statement, $values, $one = false)
+    public function prepare($statement, $values, $one = false): array|object|bool
     {
         $req = $this->getDB()->prepare($statement);
         $res = $req->execute($values);

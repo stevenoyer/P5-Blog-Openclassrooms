@@ -14,7 +14,7 @@ class AuthController extends Controller
         return new Auth();
     }
 
-    public function index()
+    public function index(): string
     {
         if ($this->getAuth()->isConnected())
         {
@@ -24,7 +24,7 @@ class AuthController extends Controller
         return $this->render('auth/auth.html.twig', []);
     }
 
-    public function login()
+    public function login(): string
     {
         if ($this->getAuth()->isConnected())
         {
@@ -45,6 +45,8 @@ class AuthController extends Controller
         {
             return $this->redirect(BASEURL . '/auth');
         }
+
+        unset($_POST['token']);
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL))
         {
@@ -75,7 +77,7 @@ class AuthController extends Controller
         return $this->render('auth/auth.html.twig', ['error' => ['login' => 'Un problème est survenu lors de la connexion.']]);
     }
 
-    public function register()
+    public function register(): string
     {
         if ($this->getAuth()->isConnected())
         {
@@ -89,7 +91,7 @@ class AuthController extends Controller
             return $this->redirect(BASEURL . '/auth');
         }
 
-        if ($this->csrf->verif($token))
+        if (!$this->csrf->verif($token))
         {
             return $this->redirect(BASEURL . '/auth');
         }
@@ -125,6 +127,7 @@ class AuthController extends Controller
             return $this->render('auth/auth.html.twig', ['error' => ['register' => 'Vos mots de passes ne correspondent pas.']]);
         }
 
+        unset($_POST['token']);
         unset($_POST['submit']);
         $validator = new FormValidatorHtml($_POST);
         $data = $validator->validate();
@@ -137,7 +140,7 @@ class AuthController extends Controller
         return $this->render('auth/auth.html.twig', ['error' => ['register' => 'Un problème est survenu lors de l\'inscription.']]);
     }
 
-    public function logout()
+    public function logout(): string
     {
         if (!$this->getAuth()->isConnected())
         {

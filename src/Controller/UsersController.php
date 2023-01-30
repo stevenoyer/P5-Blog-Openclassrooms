@@ -7,7 +7,7 @@ use So\Blog\Class\Controller;
 
 class UsersController extends Controller
 {
-    public function profil()
+    public function profil(): string
     {
         $auth = new Auth();
         if (!$auth->isConnected())

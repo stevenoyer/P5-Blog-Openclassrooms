@@ -41,7 +41,7 @@ class Controller
      * This class allows you to call the model and return it
      * @return Class
      */
-    public function getModel(string $model_name = '')
+    public function getModel(string $model_name = ''): object
     {
         if (empty($model_name))
         {
@@ -57,9 +57,8 @@ class Controller
      * Method that renders the template
      * @param string|null $tmpl
      * @param array $data
-     * @return Environment render twig
      */
-    public function render(string $tmpl = null, array $data = [])
+    public function render(string $tmpl = null, array $data = []): string
     {
         if (is_null($tmpl))
         {
@@ -74,7 +73,7 @@ class Controller
      * Method of redirecting to a url
      * @param string $url
      */
-    public function redirect(string $url)
+    public function redirect(string $url): bool
     {
         try 
         {
@@ -90,7 +89,7 @@ class Controller
     /**
      * Method forbiden, setting up the header and calling the template
      */
-    public function forbiden()
+    public function forbiden(): bool
     {
         header('HTTP/1.0 403 Forbiden');
         echo $this->render('errors/403.html.twig');
@@ -101,7 +100,7 @@ class Controller
      * Method not found, setting up the header and calling the template
      * @param string $error
      */
-    public function notFound(string $error)
+    public function notFound(string $error): bool
     {
         header('HTTP/1.0 404 Not Found');
         echo $this->render('errors/404.html.twig', ['error' => $error]);

@@ -13,7 +13,6 @@ class UsersModel extends Model
     /**
      * Find item by email
      * @param string $email
-     * @return array|object|bool
      */
     public function findByMail(string $email): array|object|bool
     {

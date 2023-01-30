@@ -6,7 +6,7 @@ use So\Blog\Class\Controller;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function index(): string
     {
         $model = $this->getModel('articles');
         $data = $model->read(3);
