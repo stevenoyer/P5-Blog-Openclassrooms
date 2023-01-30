@@ -94,6 +94,49 @@ h1, h2, h3, h4, h5, h6 {
     border-radius: 10px;
 }
 
+.articles h3 {
+    font-size: 1.2em;
+}
+
+.articles img {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.articles .card {
+    border: 2px solid #232526;
+    border-radius: 10px;
+}
+
+.articles .card .card-header {
+    border: none;
+    border-bottom: 1px solid #23252646;
+    background-color: transparent;
+    border-radius: 8px;
+    background-color: #FBAB7E;
+    background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%);
+}
+
+.articles .card .card-header i {
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.articles .card .card-footer {
+    border: none;
+    border-bottom: 1px solid #23252646;
+    background-image: linear-gradient(to right, #232526 0%, #414345 51%, #232526 100%);
+    color: #fff;
+}
+
+hr {
+    background-color: #232526;
+    background-image: linear-gradient(to right, #232526 0%, #414345 51%, #232526 100%);
+    height: 1px;
+    border: none;
+    opacity: 1;
+}
+
 @media screen and (min-width: 540px) {
     .header .logo a {
         font-size: 1.5em;

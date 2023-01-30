@@ -31,6 +31,7 @@ $router = new Router();
 $router->get('/', 'HomeController@index');
 $router->get('/articles', 'ArticlesController@index');
 $router->get('/article/:id', 'ArticlesController@single');
+$router->post('/article/:id/comments', 'CommentsController@create');
 
 // Authentication
 $router->get('/auth', 'AuthController@index');
