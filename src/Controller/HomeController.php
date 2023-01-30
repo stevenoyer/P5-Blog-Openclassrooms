@@ -8,9 +8,10 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $model = $this->getModel();
-        $data = $model->read();
-        return $this->render('home/index.html.twig', $data);
+        $model = $this->getModel('articles');
+        $data = $model->read(3);
+        
+        return $this->render('home/index.html.twig', ['items' => $data]);
     }
     
 }
