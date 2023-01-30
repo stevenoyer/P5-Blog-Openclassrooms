@@ -22,10 +22,8 @@ class Model
 
     /**
      * @param int $limit
-     * 
-     * @return array|object
      */
-    public function read(int $limit = 5): array|object
+    public function read(int $limit = 5): array|object|bool
     {
         return $this->db->query("SELECT * FROM $this->table LIMIT $limit");
     } 
@@ -33,10 +31,8 @@ class Model
     /**
      * Create an item
      * @param array $fields
-     * 
-     * @return mixed
      */
-    public function create(array $fields = []): mixed
+    public function create(array $fields = []): array|object|bool
     {
         if (empty($fields))
         {
@@ -65,10 +61,8 @@ class Model
      * Update an item
      * @param int $id
      * @param array $fields
-     * 
-     * @return mixed
      */
-    public function update(int $id, array $fields = []): mixed
+    public function update(int $id, array $fields = []): array|object|bool
     {
         if (empty($id))
         {
@@ -101,7 +95,6 @@ class Model
     /**
      * Delete an item
      * @param int $id
-     * @return bool
      */
     public function delete(int $id): bool
     {
@@ -116,9 +109,8 @@ class Model
     /**
      * Find item by id
      * @param int $id
-     * @return array|object
      */
-    public function find(int $id): array|object
+    public function find(int $id): array|object|bool
     {
         if (empty($id))
         {
@@ -133,10 +125,8 @@ class Model
      * @param string $statement
      * @param array|null $values
      * @param bool $one
-     * 
-     * @return mixed
      */
-    public function query(string $statement, array $values = null, bool $one = false): mixed
+    public function query(string $statement, array $values = null, bool $one = false): array|object|bool
     {
         if (!empty($values))
         {

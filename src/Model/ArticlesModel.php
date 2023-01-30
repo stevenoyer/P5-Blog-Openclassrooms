@@ -8,7 +8,7 @@ class ArticlesModel extends Model
 {
     protected $table = 'posts';
 
-    public function read(int $limit = 5): array|object
+    public function read(int $limit = 5): array|object|bool
     {
         $limit_sql = '';
         if ($limit != 0)
@@ -30,7 +30,7 @@ class ArticlesModel extends Model
      * @param int $id
      * @return array
      */
-    public function find(int $id): array|object
+    public function find(int $id): array|object|bool
     {
         return $this->query("
             SELECT p.*, u.name AS author_name

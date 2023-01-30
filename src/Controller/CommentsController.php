@@ -8,7 +8,7 @@ use So\Blog\Security\CsrfToken;
 
 class CommentsController extends Controller
 {
-    public function create(string $slug)
+    public function create(string $slug): string
     {
         $id = (int) explode('-', $slug, 2)[0];
 

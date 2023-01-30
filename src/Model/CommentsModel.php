@@ -12,7 +12,7 @@ class CommentsModel extends Model
      * @param int $id
      * @return array
      */
-    public function findCommentByPostId(int $id): array|object
+    public function findCommentByPostId(int $id): array|object|bool
     {
         return $this->query("
             SELECT c.*, u.name AS author_name

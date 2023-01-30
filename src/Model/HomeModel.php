@@ -6,4 +6,5 @@ use So\Blog\Class\Model;
 
 class HomeModel extends Model
 {
+    
 }
