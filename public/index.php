@@ -7,10 +7,11 @@ use Tracy\Debugger;
 
 define('ROOT', dirname(__DIR__));
 define('BASEURL', 'http://' . $_SERVER['HTTP_HOST'] . rtrim(dirname($_SERVER['PHP_SELF']), '/\\'));
+define('CONFIG', dirname(__DIR__) . '/configuration.php');
 
 // Require autoload
 require '../vendor/autoload.php';
-require dirname(__DIR__) . '/configuration.php';
+require CONFIG;
 
 // Call Config & controller
 $auth = new Auth;

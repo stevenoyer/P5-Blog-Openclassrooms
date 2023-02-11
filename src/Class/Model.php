@@ -3,9 +3,6 @@
 
 namespace So\Blog\Class;
 
-require dirname(__DIR__) . '/configuration.php';
-
-use \Config;
 use Exception;
 
 class Model
@@ -21,7 +18,7 @@ class Model
         }
 
         $this->table = rtrim(strtolower($this->table));
-        $this->db = new Database(new Config);
+        $this->db = new Database();
     }
 
     /**
