@@ -1,6 +1,9 @@
 <?php 
 
+
 namespace So\Blog\Class;
+
+require dirname(__DIR__) . '/configuration.php';
 
 use \Config;
 use Exception;
