@@ -73,12 +73,13 @@ class Controller
      * Method of redirecting to a url
      * @param string $url
      */
-    public function redirect(string $url): bool
+    public function redirect(string $url): bool|Exception
     {
         try 
         {
             if (empty($url)) return new Exception('Url is not defined');
             header('Location: ' . $url);
+            return true;
         } 
         catch (\Exception $e) 
         {
