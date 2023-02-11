@@ -15,7 +15,7 @@ require CONFIG;
 
 // Call Config & controller
 $auth = new Auth;
-$config = new Config();
+$config = new Config;
 $ctrl = new Controller;
 
 if ($config->debug)
