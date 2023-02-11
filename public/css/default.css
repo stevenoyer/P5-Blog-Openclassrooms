@@ -137,6 +137,70 @@ hr {
     opacity: 1;
 }
 
+#admin .admin-block {
+    padding: 5px;
+    height: 100%;
+    border-radius: 10px;
+    background-color: #232526;
+    background-image: linear-gradient(to right, #232526 0%, #414345 51%, #232526 100%);
+}
+
+#admin .admin-block--inner {
+    width: 100%;
+    height: 100%;
+    background-color: #FBAB7E;
+    background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%);
+    border-radius: 6px;
+    padding: 20px;
+}
+
+.admin-menu {
+    border: 3px solid #F7CE68;
+    padding: 20px;
+    border-radius: 6px;
+}
+
+.admin-menu nav ul {
+    list-style-type: none;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.admin-menu nav ul li {
+    margin: 8px 0;
+}
+
+.admin-menu nav ul li a {
+    text-decoration: none;
+    color: #000;
+    transition: all 0.3s ease-in-out;
+}
+
+.admin-menu nav ul li a:hover {
+    color: #d42626;
+    transition: all 0.3s ease-in-out;
+}
+
+.admin-menu-container nav ul {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-menu-container nav ul li {
+    margin: 10px 0;
+}
+
+@media screen and (min-width: 960px) {
+    .admin-menu-container nav ul {
+        flex-direction: row;
+    }
+
+    .admin-menu-container nav ul li {
+        margin: 0 10px;
+    }
+}
+
 @media screen and (min-width: 540px) {
     .header .logo a {
         font-size: 1.5em;
