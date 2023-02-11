@@ -20,7 +20,7 @@ class AuthController extends Controller
     /**
      * Show authentication page
      */
-    public function index(): string
+    public function index(): string|bool
     {
         if ($this->getAuth()->isConnected())
         {
@@ -34,7 +34,7 @@ class AuthController extends Controller
     /**
      * Proccess login auth
      */
-    public function login(): string
+    public function login(): string|bool
     {
         if ($this->getAuth()->isConnected())
         {
