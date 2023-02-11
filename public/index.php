@@ -6,8 +6,8 @@ use So\Blog\Router\Router;
 use Tracy\Debugger;
 
 define('ROOT', dirname(__DIR__));
-define('CONFIG', dirname(__DIR__) . '/configuration.php');
 define('BASEURL', 'http://' . $_SERVER['HTTP_HOST'] . rtrim(dirname($_SERVER['PHP_SELF']), '/\\'));
+define('CONFIG', dirname(__DIR__) . '/configuration.php');
 
 // Require autoload
 require '../vendor/autoload.php';
