@@ -9,26 +9,37 @@ use stdClass;
 
 class AuthController extends Controller
 {
+    /**
+     * Get Auth class
+     */
     private function getAuth(): object
     {
         return new Auth();
     }
 
+    /**
+     * Show authentication page
+     */
     public function index(): string
     {
         if ($this->getAuth()->isConnected())
         {
-            return $this->redirect(BASEURL . '/profil');
+            $this->redirect(BASEURL . '/profil');
+            return false;
         }
         
         return $this->render('auth/auth.html.twig', []);
     }
 
+    /**
+     * Proccess login auth
+     */
     public function login(): string
     {
         if ($this->getAuth()->isConnected())
         {
-            return $this->redirect(BASEURL . '/profil');
+            $this->redirect(BASEURL . '/auth');
+            return false;
         }
 
         extract($_POST);
@@ -38,12 +49,14 @@ class AuthController extends Controller
 
         if (empty($token))
         {
-            return $this->redirect(BASEURL . '/auth');
+            $this->redirect(BASEURL . '/auth');
+            return false;
         }
 
         if (!$this->csrf->verif($token))
         {
-            return $this->redirect(BASEURL . '/auth');
+            $this->redirect(BASEURL . '/auth');
+            return false;
         }
 
         unset($_POST['token']);
@@ -71,29 +84,36 @@ class AuthController extends Controller
 
         if ($this->getAuth()->login($user))
         {
-            return $this->redirect(BASEURL . '/profil');
+            $this->redirect(BASEURL . '/profil');
+            return true;
         }
 
         return $this->render('auth/auth.html.twig', ['error' => ['login' => 'Un problème est survenu lors de la connexion.']]);
     }
 
-    public function register(): string
+    /**
+     * Process register auth
+     */
+    public function register(): string|bool
     {
         if ($this->getAuth()->isConnected())
         {
-            return $this->redirect(BASEURL . '/profil');
+            $this->redirect(BASEURL . '/profil');
+            return false;
         }
 
         extract($_POST);
 
         if (empty($token))
         {
-            return $this->redirect(BASEURL . '/auth');
+            $this->redirect(BASEURL . '/auth');
+            return false;
         }
 
         if (!$this->csrf->verif($token))
         {
-            return $this->redirect(BASEURL . '/auth');
+            $this->redirect(BASEURL . '/auth');
+            return false;
         }
 
         if (empty($name))
@@ -127,6 +147,11 @@ class AuthController extends Controller
             return $this->render('auth/auth.html.twig', ['error' => ['register' => 'Vos mots de passes ne correspondent pas.']]);
         }
 
+        // We remove potential values ​​added by the user
+        unset($_POST['is_admin']);
+        unset($_POST['validate']);
+        unset($_POST['id']);
+
         unset($_POST['token']);
         unset($_POST['submit']);
         $validator = new FormValidatorHtml($_POST);
@@ -134,22 +159,28 @@ class AuthController extends Controller
 
         if ($this->getAuth()->register($data))
         {
-            return $this->redirect(BASEURL . '/auth');
+            $this->redirect(BASEURL . '/auth');
+            return true;
         }
         
         return $this->render('auth/auth.html.twig', ['error' => ['register' => 'Un problème est survenu lors de l\'inscription.']]);
     }
 
-    public function logout(): string
+    /**
+     * Logout the user
+     */
+    public function logout(): bool
     {
         if (!$this->getAuth()->isConnected())
         {
-            return $this->redirect(BASEURL . '/auth');
+            $this->redirect(BASEURL . '/auth');
+            return true;
         }
 
         if ($this->getAuth()->logout())
         {
-            $this->redirect(BASEURL);
+            $this->redirect(BASEURL . '/');
+            return true;
         }
     }
 
