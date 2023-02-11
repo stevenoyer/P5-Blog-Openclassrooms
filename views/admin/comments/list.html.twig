@@ -1,0 +1,57 @@
+{% extends "default.html.twig" %}
+
+{% block header %}
+    {% include "layouts/menu.html.twig" %}
+{% endblock %}
+
+{% block main %}
+    <div id="articles" class="container-fluid container mt-5">
+
+        <div class="admin-menu-container">
+            {% include "layouts/menu.admin.html.twig" %}
+        </div>
+
+        <div class="mt-5">
+            <h1>Tous les commentaires</h1>
+            <div class="table-responsive mt-5">
+                <table class="table table-striped mt-3">
+                    <thead class="table-dark">
+                        <tr>
+                            <th class="text-center" scope="col">Articles</th>
+                            <th class="text-center" scope="col">Validations</th>
+                            <th class="text-center" scope="col">Contenu</th>
+                            <th class="text-center" scope="col">Autheur</th>
+                            <th class="text-center" scope="col">Date de création</th>
+                            <th class="text-center" scope="col">Date de mise-à-jour</th>
+                            <th class="text-center" scope="col">ID</th>
+                            <th class="text-center" scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in items %}
+                            <tr>
+                                <td>{{ item.post_title|slice(0, 100) }}</td>
+                                {% if item.validation == 1 %}
+                                    <td class="text-center text-success fs-3"><i class="fa-solid fa-circle-check"></i></td>
+                                {% else %}
+                                    <td class="text-center text-danger fs-3"><i class="fa-solid fa-circle-xmark"></i></td>
+                                {% endif %}
+                                <td>{{ item.content }}</td>
+                                <td class="text-center">{{ item.author_name }}</td>
+                                <td class="text-center">{{ item.created_at|date('d-m-Y à H:i') }}</td>
+                                <td class="text-center">{{ item.update_at|date('d-m-Y à H:i') }}</td>
+                                <td class="text-center">{{ item.id }}</td>
+                                <td>
+                                    <div class="d-flex">
+                                        <a class="btn btn-danger" href=""><i class="fa-solid fa-trash"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+    </div>
+{% endblock %}

@@ -1,0 +1,112 @@
+{% extends "default.html.twig" %}
+
+{% block header %}
+    {% include "layouts/menu.html.twig" %}
+{% endblock %}
+
+{% block main %}
+    <div class="container-fluid container">
+        <div class="articles mt-5">
+            <h1 class="text-center">{{ post.title }}</h1>
+            <div class="mt-5">
+                <p>{{ post.introtext }}</p>
+                <p>{{ post.content }}</p>
+            </div>
+            <div>
+                <i>Autheur : {{ post.author_name }}</i>
+            </div>
+            <div class="text-end">
+                <p class="fw-bold m-0">
+                    <i>Créer le {{ post.created_at|date('d-m-Y à H:i') }}</i>
+                </p>
+
+                {% if post.created_at != post.update_at %}
+                <p>
+                    <i>Mise à jour le {{ post.update_at|date('d-m-Y à H:i') }}</i>
+                </p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="comments mt-5">
+            {% if comments %}
+                <h2>Commentaires</h2>
+                {% for comment in comments %}
+                    <div class="row mt-5">
+                        <div class="col-1">
+                            <div class="text-center">
+                                <img width="60" src="https://cdn-icons-png.flaticon.com/512/64/64572.png" alt="Photo de profil de {{ comment.author_name }}">
+                            </div>
+                        </div>
+
+                        <div class="col-10">
+                            <div class="mb-3">
+                                <h3>{{ comment.author_name }}</h3>
+                                <span class="fw-bold">Créer le {{ comment.created_at|date('d-m-Y H:i') }}</span>
+                                {% if comment.created_at != comment.update_at %}
+                                    <span class="ms-2"><i>(édité le : {{ comment.update_at|date('d-m-Y H:i') }})</i></span>
+                                {% endif %}
+                            </div>
+
+                            <p>{{ comment.content }}</p>
+
+                            {% if comment.author == session.id %}
+                                <div class="mt-5 collapse" id="comment-{{ comment.id }}">
+                                    <hr>
+                                    <form class="mt-5" action="{{ baseurl }}/article/{{ post.id }}-{{ post.slug }}/comments/{{ comment.id }}" method="POST">
+                                        <div class="mb-3">
+                                            <label for="content" class="form-label">Modification de votre commentaire</label>
+                                            <textarea class="form-control" id="content" name="content" rows="3">{{ comment.content }}</textarea>
+                                        </div>
+
+                                        <p class="text-warning">
+                                            <i class="fa-solid fa-triangle-exclamation"></i> 
+                                            <i>Attention, lors de la modification du commentaire, celui-ci devra être à nouveau confirmer par un administrateur.</i>
+                                        </p>
+                        
+                                        <input type="hidden" name="token" value="{{ securityToken }}">
+                                        <div class="mb-3 d-flex justify-content-end">
+                                            <input class="btn-primary-blog mt-3" type="submit" value="Envoyer">
+                                        </div>
+                                    </form>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        {% if comment.author == session.id %}
+                            <div class="col-1">
+                                <div class="text-center">
+                                    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#comment-{{ comment.id }}" aria-expanded="false" aria-controls="comment-{{ comment.id }}"><i class="fa-solid fa-pen"></i></button>
+                                    
+                                    <form class="d-inline-block" action="{{ baseurl }}/article/{{ post.id }}-{{ post.slug }}/comments/{{ comment.id }}/delete" method="POST">
+                                        <input type="hidden" name="token" value="{{ securityToken }}">
+                                        <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
+                                    </form>
+
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+            {% endif %}
+
+            {% if session.id %}
+                <div class="mt-5">
+                    <hr>
+                    <form class="mt-5" action="{{ baseurl }}/article/{{ post.id }}-{{ post.slug }}/comments" method="POST">
+                        <div class="mb-3">
+                            <label for="content" class="form-label">Votre commentaire</label>
+                            <textarea class="form-control" id="content" name="content" rows="3"></textarea>
+                        </div>
+        
+                        <input type="hidden" name="token" value="{{ securityToken }}">
+                        <div class="mb-3 d-flex justify-content-end">
+                            <input class="btn-primary-blog mt-3" type="submit" value="Envoyer">
+                        </div>
+                    </form>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends "default.html.twig" %}
+
+{% block header %}
+    {% include "layouts/menu.html.twig" %}
+{% endblock %}
+
+{% block main %}
+    <div id="articles" class="container-fluid container mt-5">
+
+        <div class="admin-menu-container">
+            {% include "layouts/menu.admin.html.twig" %}
+        </div>
+
+        <div class="mt-5">
+            {% if not item %}
+                <h1 class="text-center">Ajouter un nouvel article</h1>
+            {% else %}
+                <h1 class="text-center">Édition de l'article {{ item.title }}</h1>
+            {% endif %}
+            <form class="mt-2" action="{{ baseurl }}/admin/articles/editArticle" method="POST">
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Titre de l'article</label>
+                            <input type="text" class="form-control" id="title" name="title" value="{{ item.title }}" placeholder="Hello World !">
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <div class="mb-3">
+                            <label for="slug" class="form-label">Slug <i class="text-muted">(généré automatiquement)</i></label>
+                            <input type="text" class="form-control" id="slug" name="slug" value="{{ item.slug }}" placeholder="hello-world">
+                        </div>
+                    </div>
+
+
+                    <div class="mb-4">
+                        <label for="state" class="form-label">Statut</label>
+                        <select id="state" class="form-select" name="state" aria-label="Statut">
+                            <option value="1" selected>Publié</option>
+                            <option value="0">Non publié</option>
+                            <option value="2">Corbeille</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="introtext" class="form-label">Texte d'introduction</label>
+                        <textarea class="form-control" id="introtext" name="introtext" rows="2" placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit.">{{ item.introtext }}</textarea>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="content" class="form-label">Description</label>
+                        <textarea class="form-control" id="content" name="content" rows="5" placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam porta suscipit urna vitae euismod. Praesent ac ullamcorper justo, eu sollicitudin tortor. Suspendisse sit amet fringilla erat. Nam porta porttitor augue, sed rhoncus lorem. Nullam sodales ipsum et ligula lacinia tempus. Nullam fringilla libero non pretium consectetur. Praesent ut odio leo. Fusce elementum porttitor massa ac elementum. Integer at fermentum mi. Morbi ut interdum purus, sit amet molestie ex. Nunc vitae efficitur justo. Curabitur ac nulla purus. Sed non sollicitudin odio. Donec viverra sagittis diam, at consectetur mi ornare vel. Maecenas lacinia quam sed luctus scelerisque.">{{ item.content }}</textarea>
+                    </div>
+                </div>
+
+                <input type="hidden" name="token" value="{{ securityToken }}">
+                <div class="mb-3 d-flex justify-content-end">
+                    <a href="{{ baseurl }}/admin/articles" class="btn btn-danger mt-3 me-3">Annuler</a>
+                    <input class="btn btn-success mt-3" type="submit" value="Enregistrer">
+                </div>
+            </form>
+        </div>
+        
+    </div>
+{% endblock %}

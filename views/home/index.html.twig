@@ -1,26 +1,71 @@
 {% extends "default.html.twig" %}
 
-{% block body %}
-    <div class="container mt-5">
-        <h1>Home page</h1>
-        <h3>Articles</h3>
-        <div class="row">
-            {% for item in items %}
-                <div class="col-12 col-md-4 mb-3">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>{{ item.title }}</h4>
-                        </div>
-                        <div class="card-body">
-                            <p>{{ item.content }}</p>
-                        </div>
-                        <div class="card-footer">
-                            <p class="text-danger">{{ item.author }}</p>
-                            <p class="text-success">{{ item.created_at }}</p>
+{% block header %}
+    <div class="header-inner">
+        {% include "layouts/menu.html.twig" %}
+        <div class="portfolio">
+            <div class="avatar">
+                <img src="images/avatar/stevenoyer.jpeg" alt="Photo de profil de Steven Oyer">
+            </div>
+            <h1>Steven Oyer, développeur web backend</h1>
+            <div class="mt-5">
+                <a class="btn btn-primary-blog" href="{{ baseurl}}#articles-home">En savoir +</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block main %}
+    <div id="articles-home" class="container-fluid container mt-5">
+        <h2>Mes derniers articles</h2>
+        <div class="articles mt-5">
+            <div class="row">
+                {% for item in items %}
+                    <div class="col-12 col-md-4 mb-3">
+                        <div class="card h-100">
+                            <div class="card-header">
+                                <h3>{{ item.title }}</h3>
+                                <i>Autheur : {{ item.author_name }}</i>
+                            </div>
+                            <div class="card-body">
+                                <p>{{ item.introtext }} <span><a href="{{ baseurl }}/article/{{ item.id }}-{{ item.slug }}">Lire la suite</a></span></p>
+                            </div>
+                            <div class="card-footer">
+                                <p class="m-0"><i>Créer le {{ item.created_at|date('d-m-Y à H:i') }}</i></p>
+                            </div>
                         </div>
                     </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div id="contact" class="contact mt-5">
+            <h2>Me contacter</h2>
+            <form action="/contact" method="POST">
+                <div class="mb-3">
+                    <label for="nameInput" class="form-label">Nom et prénom</label>
+                    <input type="text" class="form-control" name="name" id="nameInput" placeholder="Doe John">
                 </div>
-            {% endfor %}
+
+                <div class="mb-3">
+                    <label for="emailInput" class="form-label">Adresse e-mail</label>
+                    <input type="email" class="form-control" name="email" id="emailInput" placeholder="john.doe@example.com">
+                </div>
+
+                <div class="mb-3">
+                    <label for="subjectInput" class="form-label">Sujet du message</label>
+                    <input type="text" class="form-control" name="subject" id="subjectInput" placeholder="Besoin d'information">
+                </div>
+
+                <div class="mb-3">
+                    <label for="messageText" class="form-label">Votre message</label>
+                    <textarea class="form-control" name="message" id="messageText" rows="4"></textarea>
+                </div>
+
+                <div class="mb-3 d-flex justify-content-end">
+                    <input class="btn-primary-blog mt-3" type="submit" name="submit" value="Envoyer">
+                </div>
+            </form>
         </div>
     </div>
 {% endblock %}
