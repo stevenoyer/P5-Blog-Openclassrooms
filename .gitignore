@@ -1,3 +1,4 @@
 /vendor/
 .htaccess
 /public/.htaccess
+.DS_Store
