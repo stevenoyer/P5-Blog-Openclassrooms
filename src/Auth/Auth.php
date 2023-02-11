@@ -47,7 +47,7 @@ class Auth implements AuthInterface
     public function register(array|object $params = []): bool
     {
         unset($params['confirm_password']);
-        $hash = password_hash($params['password'], PASSWORD_BCRYPT);
+        $hash = $this->pwdHash($params['password']);
         $params['password'] = $hash;
         $params['is_admin'] = 0;
         $params['validate'] = 0;
@@ -56,11 +56,19 @@ class Auth implements AuthInterface
     }
 
     /**
+     * Hash the password
+     */
+    public function pwdHash(string $password): string
+    {
+        return password_hash($password, PASSWORD_BCRYPT);
+    }
+
+    /**
      * Verif user account
      */
     public function verifyAccount(array|object $params = []): bool
     {
-        $user = $this->model->findByMail($params['email']);
+        $user = $this->model->find($params['id']);
         if (empty($user) || $user === false)
         {
             return false;
@@ -79,6 +87,14 @@ class Auth implements AuthInterface
             return false;
         }
 
+        // If user does not exist
+        if (!$this->verifyAccount(['id' => $_SESSION['id']]))
+        {
+            // Logout session and return false
+            $this->logout();
+            return false;
+        }
+
         return true;
     }
 
@@ -87,8 +103,9 @@ class Auth implements AuthInterface
      */
     public function isAdmin(): bool
     {
-        if ($_SESSION['is_admin'] != 1)
+        if ($this->model->find($_SESSION['id'])->is_admin != 1)
         {
+            $_SESSION['is_admin'] = 0;
             return false;
         }
 
