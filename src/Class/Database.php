@@ -13,11 +13,8 @@ class Database
     private string $password;
     private $pdo;
 
-    public function __construct()
+    public function __construct(Config $config)
     {
-        // Get config
-        $config = new Config();
-
         // Set variables
         $this->host = $config->host;
         $this->db = $config->db;

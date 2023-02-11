@@ -2,6 +2,7 @@
 
 namespace So\Blog\Class;
 
+use \Config;
 use Exception;
 
 class Model
@@ -17,7 +18,7 @@ class Model
         }
 
         $this->table = rtrim(strtolower($this->table));
-        $this->db = new Database();
+        $this->db = new Database(new Config);
     }
 
     /**
