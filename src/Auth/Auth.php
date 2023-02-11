@@ -13,7 +13,7 @@ class Auth implements AuthInterface
     private $controller;
     private $model;
 
-    public function init()
+    public function init(): bool
     {
         if (session_status() !== PHP_SESSION_ACTIVE || session_status() === PHP_SESSION_NONE)
         {
