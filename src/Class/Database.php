@@ -26,13 +26,13 @@ class Database
     }
 
     /**
-     * @return \PDO instance of pdo
+     * Method get PDO for instanciate PDO
      */
     private function getDB(): \PDO
     {
         if (is_null($this->pdo))
         {
-            $pdo = new PDO("mysql:dbname=$this->db;host=$this->host;charset=utf8", $this->user, $this->password);
+            $pdo = new PDO("mysql:dbname=$this->db;host=$this->host;charset=utf8mb4", $this->user, $this->password);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->pdo = $pdo;
         }
@@ -41,10 +41,7 @@ class Database
     }
 
     /**
-     * @param string $statement
-     * @param bool $one
-     * 
-     * @return Object|Array
+     * Query to database
      */
     public function query($statement, $one = false): array|object|bool
     {
@@ -74,9 +71,7 @@ class Database
     }
 
     /**
-     * @param string $statement
-     * @param array $values
-     * @param bool $one
+     * Prepare to database
      */
     public function prepare($statement, $values, $one = false): array|object|bool
     {

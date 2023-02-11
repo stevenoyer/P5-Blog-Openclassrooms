@@ -14,14 +14,18 @@ class FormValidatorHtml
         $this->post = $post;
     }
 
+    /**
+     * Process validate data
+     */
     public function validate(): array
     {
         $post = [];
         foreach ($this->post as $key => $data)
         {
-            $data = trim($data);
-            $data = stripslashes($data);
-            $data = htmlspecialchars($data);
+            $data = trim($data); // Delete inutile spaces
+            $data = stripslashes($data); // Remove \ from string
+            $data = strip_tags($data); // Remove tag HTML & PHP
+            $data = htmlspecialchars($data); // convert special characters to HTML
             $post[$key] = $data;
         }
 

@@ -13,10 +13,6 @@ class Router
 
     /**
      * This function allows you to retrieve a route
-     * @param string $path
-     * @param callable|string $action
-     * 
-     * @return callable|string
      */
     public function post(string $path, callable|string $action): callable|string
     {
@@ -25,10 +21,6 @@ class Router
 
     /**
      * This function allows you to retrieve a route
-     * @param string $path
-     * @param callable|string $action
-     * 
-     * @return callable|string
      */
     public function get(string $path, callable|string $action): callable|string
     {
@@ -37,11 +29,6 @@ class Router
 
     /**
      * Function that adds a new route to the routes
-     * @param string $path
-     * @param callable|string $action
-     * @param string $method
-     * 
-     * @return callable|string
      */
     public function add(string $path, callable|string $action, string $method): callable|string
     {
@@ -50,10 +37,6 @@ class Router
 
     /**
      * Function that matches a route with the URL, if they match, then true is returned otherwise false
-     * @param string $path
-     * @param string $uri
-     * 
-     * @return bool
      */
     public function match(string $path, string $uri): bool
     {
@@ -72,7 +55,6 @@ class Router
 
     /**
      * Call the callable or controller with method
-     * @return mixed
      */
     public function call(): mixed
     {
@@ -111,8 +93,6 @@ class Router
 
     /**
      * This function processes the routes
-     * @param string $uri
-     * @return bool
      */
     public function run(string $uri): bool
     {

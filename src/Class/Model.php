@@ -13,7 +13,7 @@ class Model
     {
         if (is_null($this->table))
         {
-            return new Exception('Vous n\'avez pas défini de table dans le contructeur du model.');
+            new Exception('Vous n\'avez pas défini de table dans le contructeur du model.');
         }
 
         $this->table = rtrim(strtolower($this->table));
@@ -25,7 +25,14 @@ class Model
      */
     public function read(int $limit = 5): array|object|bool
     {
-        return $this->db->query("SELECT * FROM $this->table LIMIT $limit");
+        $limit_sql = '';
+
+        if ($limit >= 1)
+        {
+            $limit_sql = "LIMIT $limit";
+        }
+
+        return $this->db->query("SELECT * FROM $this->table ORDER BY id DESC $limit_sql");
     } 
 
     /**
@@ -88,6 +95,7 @@ class Model
             $attributes[] = $value;
         }
 
+        $attributes[] = $id;
         $sql = implode(', ', $sql_parts);
         return $this->query("UPDATE $this->table SET $sql WHERE id = ?", $attributes, true);
     }
