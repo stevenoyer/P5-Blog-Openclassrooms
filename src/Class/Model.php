@@ -2,7 +2,7 @@
 
 namespace So\Blog\Class;
 
-use Config;
+use \Config;
 use Exception;
 
 class Model
