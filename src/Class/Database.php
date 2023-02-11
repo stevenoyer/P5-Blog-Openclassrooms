@@ -43,7 +43,7 @@ class Database
     /**
      * Query to database
      */
-    public function query($statement, $one = false): array|object|bool
+    public function query(string $statement, bool $one = false): array|object|bool
     {
         $req = $this->getDB()->query($statement);
 
@@ -73,7 +73,7 @@ class Database
     /**
      * Prepare to database
      */
-    public function prepare($statement, $values, $one = false): array|object|bool
+    public function prepare(string $statement, array $values, bool $one = false): array|object|bool
     {
         $req = $this->getDB()->prepare($statement);
         $res = $req->execute($values);
