@@ -1,0 +1,78 @@
+{% extends "default.html.twig" %}
+
+{% block header %}
+    {% include "layouts/menu.html.twig" %}
+{% endblock %}
+
+{% block main %}
+    <div id="admin" class="container-fluid container mt-5">
+        <div class="row g-4">
+            <div class="col-12 col-md-6">
+                <div class="admin-block admin-articles">
+                    <div class="admin-block--inner">
+                        <h3>Les derniers articles</h3>
+                        <div class="mt-5">
+                            {% for article in articles %}
+                               <div class="article mb-3">
+                                    <p>{{ article.title }} - {{ article.author_name }} - <i>{{ article.created_at|date('d-m-Y à H:i') }}</i></p>
+                               </div>
+                            {% endfor %}
+                        </div>
+                        <div class="text-end mt-5">
+                            <a href="{{ baseurl }}/admin/articles" class="btn btn-primary-blog">Gérer les articles</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <div class="admin-block admin-comments">
+                    <div class="admin-block--inner">
+                        <h3>Les derniers commentaires</h3>
+                        <div class="mt-5">
+                            {% for comment in comments %}
+                                <div class="comments mb-3">
+                                    <p>{{ comment.content|slice(0, 40) }}... - {{ comment.author_name }} - <i>{{ comment.created_at|date('d-m-Y à H:i') }}</i></p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="text-end mt-5">
+                            <a href="{{ baseurl }}/admin/comments" class="btn btn-primary-blog">Gérer les commentaires</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <div class="admin-block admin-users">
+                    <div class="admin-block--inner">
+                        <h3>Les derniers utilisateurs</h3>
+                        <div class="mt-5">
+                            {% for user in users %}
+                                <div class="comments mb-3">
+                                    <p>{{ user.name }} - <i>{{ user.created_at|date('d-m-Y à H:i') }}</i></p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="text-end mt-5">
+                            <a href="{{ baseurl }}/admin/users" class="btn btn-primary-blog">Gérer les utilisateurs</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <div class="admin-block admin-stats">
+                    <div class="admin-block--inner">
+                        <h3>Statistiques</h3>
+                        <div class="stats mb-3 mt-5">
+                            <p>Nombre d'articles : {{ stats.articles }}</p>
+                            <p>Nombre de commentaires : {{ stats.comments }}</p>
+                            <p>Nombre d'utilisateurs : {{ stats.users }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

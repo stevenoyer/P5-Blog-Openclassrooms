@@ -35,6 +35,7 @@
                             </div>
                         {% endif %}
         
+                        <input type="hidden" name="token" value="{{ securityToken }}">
                         <div class="mb-3 d-flex justify-content-end">
                             <input class="btn-primary-blog mt-3" type="submit" name="submit" value="Se connecter">
                         </div>
@@ -72,6 +73,7 @@
                             </div>
                         {% endif %}
         
+                        <input type="hidden" name="token" value="{{ securityToken }}">
                         <div class="mb-3 d-flex justify-content-end">
                             <input class="btn-primary-blog mt-3" type="submit" name="submit" value="S'inscrire">
                         </div>

@@ -1,0 +1,30 @@
+{% extends "default.html.twig" %}
+
+{% block header %}
+    {% include "layouts/menu.html.twig" %}
+{% endblock %}
+
+{% block main %}
+    <div class="container-fluid container">
+        <div class="articles mt-5">
+            <div class="row">
+                {% for item in items %}
+                    <div class="col-12 col-md-4 mb-4">
+                        <div class="card h-100">
+                            <div class="card-header">
+                                <h3>{{ item.title }}</h3>
+                                <i>Autheur : {{ item.author_name }}</i>
+                            </div>
+                            <div class="card-body">
+                                <p>{{ item.introtext }} <span><a href="{{ baseurl }}/article/{{ item.id }}-{{ item.slug }}">Lire la suite</a></span></p>
+                            </div>
+                            <div class="card-footer">
+                                <p class="m-0"><i>Créer le {{ item.created_at|date('d-m-Y à H:i') }}</i></p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

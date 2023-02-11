@@ -1,0 +1,67 @@
+{% extends "default.html.twig" %}
+
+{% block header %}
+    {% include "layouts/menu.html.twig" %}
+{% endblock %}
+
+{% block main %}
+    <div id="users" class="container-fluid container mt-5">
+
+        <div class="admin-menu-container">
+            {% include "layouts/menu.admin.html.twig" %}
+        </div>
+
+        <div class="mt-5">
+            <h1 class="text-center">Ajouter un nouvel utilisateur</h1>
+            <form class="mt-2" action="{{ baseurl }}/admin/articles/editArticle" method="POST">
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nom et prénom</label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Doe John">
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">E-mail</label>
+                            <input type="text" class="form-control" id="email" name="email" value="{{ item.slug }}" placeholder="john.doe@example.com">
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <div class="mb-4">
+                            <label for="validate" class="form-label">Validation</label>
+                            <select id="validate" class="form-select" name="validate" aria-label="Validation">
+                                <option value="0" selected>Non</option>
+                                <option value="1">Oui</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <div class="mb-4">
+                            <label for="is_admin" class="form-label">Admin</label>
+                            <select id="is_admin" class="form-select" name="is_admin" aria-label="Admin">
+                                <option value="0" selected>Non</option>
+                                <option value="1">Oui</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="passwordInput" class="form-label">Mot de passe</label>
+                        <input type="password" class="form-control" name="password" id="passwordInput" placeholder="*******************">
+                    </div>
+                </div>
+
+                <input type="hidden" name="token" value="{{ securityToken }}">
+                <div class="mb-3 d-flex justify-content-end">
+                    <a href="{{ baseurl }}/admin/users" class="btn btn-danger mt-3 me-3">Annuler</a>
+                    <input class="btn btn-success mt-3" type="submit" value="Enregistrer">
+                </div>
+            </form>
+        </div>
+        
+    </div>
+{% endblock %}
