@@ -31,5 +31,21 @@ class FormValidatorHtml
 
         return $post;
     }
+
+    /**
+     * Check if data is not empty
+     */
+    public function checkEmpty(): bool
+    {
+        foreach ($this->post as $data)
+        {
+            if (empty($data))
+            {
+                return false;
+            }
+
+            return true;
+        }
+    }
     
 }
