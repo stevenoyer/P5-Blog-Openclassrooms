@@ -34,7 +34,9 @@
                     <tbody>
                         {% for item in items %}
                             <tr>
-                                <td>{{ item.title }}</td>
+                                <td>
+                                    <a href="{{ baseurl }}/admin/articles/edit/{{ item.id }}">{{ item.title }}</a>
+                                </td>
                                 {% if item.state == 1 %}
                                     <td class="text-center text-success fs-3"><i class="fa-solid fa-circle-check"></i></td>
                                 {% else %}
