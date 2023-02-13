@@ -6,6 +6,9 @@ use So\Blog\Class\Controller;
 
 class ArticlesController extends Controller
 {
+    /**
+     * Show articles page
+     */
     public function index(): string
     {
         $model = $this->getModel();
@@ -13,11 +16,14 @@ class ArticlesController extends Controller
         return $this->render('articles/articles.html.twig', ['items' => $data]);
     }
 
+    /**
+     * Show single article page
+     */
     public function single(string $slug): string
     {
         $id = (int) explode('-', $slug, 2)[0];
         $post = $this->getModel()->find($id);
-        $comments = $this->getModel('comments')->findCommentByPostId($id);
+        $comments = $this->getModel('comments')->findCommentsByPostId($id);
 
         if (empty($post))
         {
