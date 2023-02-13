@@ -68,7 +68,7 @@ class Auth implements AuthInterface
      */
     public function verifyAccount(array|object $params = []): bool
     {
-        $user = $this->model->find($params['id']);
+        $user = $this->model->find($params['id'], 'id');
         if (empty($user) || $user === false)
         {
             return false;
@@ -103,7 +103,7 @@ class Auth implements AuthInterface
      */
     public function isAdmin(): bool
     {
-        if ($this->model->find($_SESSION['id'])->is_admin != 1)
+        if ($this->model->find($_SESSION['id'], 'id')->is_admin != 1)
         {
             $_SESSION['is_admin'] = 0;
             return false;
