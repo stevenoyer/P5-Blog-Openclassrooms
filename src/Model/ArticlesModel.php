@@ -8,7 +8,10 @@ class ArticlesModel extends Model
 {
     protected $table = 'posts';
 
-    public function read(int $limit = 5): array|object|bool
+    /**
+     * Read posts items
+     */
+    public function read(int $limit = 5, ?int $state = 1): array|object|bool
     {
         $limit_sql = '';
         if ($limit != 0)
@@ -16,29 +19,33 @@ class ArticlesModel extends Model
             $limit_sql = "LIMIT $limit";
         }
 
+        if (!is_null($state))
+        {
+            $state = "WHERE p.state = $state";
+        }
+
         return $this->query("
             SELECT p.*, u.name AS author_name
             FROM $this->table AS p
             LEFT JOIN users AS u ON u.id = p.author
-            WHERE p.state = 1
+            $state
             ORDER BY p.created_at DESC
             $limit_sql
         ");
     }
-
+    
     /**
-     * @param int $id
-     * @return array
+     * Get post by search
      */
-    public function find(int $id): array|object|bool
+    public function find(mixed $search, string $type = 'id', bool $one = true): array|object|bool
     {
         return $this->query("
             SELECT p.*, u.name AS author_name
             FROM $this->table AS p
             LEFT JOIN users AS u ON u.id = p.author
-            WHERE p.id = ? AND p.state = ?
+            WHERE p.$type = ? AND p.state = ?
             ORDER BY p.created_at DESC
-        ", [$id, 1], true);
+        ", [$search, 1], $one);
     }
 
 }
