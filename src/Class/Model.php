@@ -117,16 +117,15 @@ class Model
 
     /**
      * Find item by id
-     * @param int $id
      */
-    public function find(int $id): array|object|bool
+    public function find(mixed $search, string $type = 'id', bool $one = true): array|object|bool
     {
-        if (empty($id))
+        if (empty($search))
         {
-            return throw new Exception('Please indicate the item ID');
+            return throw new Exception('Please indicate the item search');
         } 
         
-        return $this->query("SELECT * FROM $this->table WHERE id = ?", [$id], true);
+        return $this->query("SELECT * FROM $this->table WHERE $type = ?", [$search], $one);
     }
 
     /**
