@@ -43,19 +43,47 @@
                                 <td class="text-center">{{ item.email }}</td>
                                 <td class="text-center">{{ item.created_at|date('d-m-Y à H:i') }}</td>
                                 {% if item.validate %}
-                                    <td class="text-center">Oui</td>
+                                    <td class="text-center">
+                                        <form class="d-inline-block" action="{{ baseurl }}/admin/users/updateValidation" method="POST">
+                                            <input type="hidden" name="token" value="{{ securityToken }}">
+                                            <input type="hidden" name="id" value="{{ item.id }}">
+                                            <input type="hidden" name="validate" value="0">
+                                            <button type="submit" class="btn btn-danger me-2"><i class="fa-solid fa-ban"></i></button>
+                                        </form>
+                                    </td>
                                 {% else %}
-                                    <td class="text-center">Non</td>
+                                    <td class="text-center">
+                                        <form class="d-inline-block" action="{{ baseurl }}/admin/users/updateValidation" method="POST">
+                                            <input type="hidden" name="token" value="{{ securityToken }}">
+                                            <input type="hidden" name="id" value="{{ item.id }}">
+                                            <input type="hidden" name="validate" value="1">
+                                            <button type="submit" class="btn btn-success me-2"><i class="fa-solid fa-check"></i></button>
+                                        </form>
+                                    </td>
                                 {% endif %}
                                 <td class="text-center">{{ item.id }}</td>
                                 <td>
                                     <div class="d-flex">
                                         {% if item.is_admin %}
-                                            <a class="btn btn-primary me-2" href=""><i class="fa-solid fa-user"></i></a>
+                                            <form class="d-inline-block" action="{{ baseurl }}/admin/users/updateRole" method="POST">
+                                                <input type="hidden" name="token" value="{{ securityToken }}">
+                                                <input type="hidden" name="is_admin" value="0">
+                                                <input type="hidden" name="id" value="{{ item.id }}">
+                                                <button type="submit" class="btn btn-secondary me-2"><i class="fa-solid fa-user"></i></button>
+                                            </form>
                                         {% else %}
-                                            <a class="btn btn-primary me-2" href=""><i class="fa-solid fa-user-gear"></i></a>
+                                            <form class="d-inline-block" action="{{ baseurl }}/admin/users/updateRole" method="POST">
+                                                <input type="hidden" name="token" value="{{ securityToken }}">
+                                                <input type="hidden" name="is_admin" value="1">
+                                                <input type="hidden" name="id" value="{{ item.id }}">
+                                                <button type="submit" class="btn btn-warning me-2"><i class="fa-solid fa-user-gear"></i></button>
+                                            </form>
                                         {% endif %}
-                                        <a class="btn btn-danger" href=""><i class="fa-solid fa-trash"></i></a>
+                                        <form class="d-inline-block" action="{{ baseurl }}/admin/users/delete" method="POST" onsubmit="return confirm('Voulez-vous vraiment supprimer cet utilisateur ? Tous les commentaires de cet utilisateur seront anonymisé ! Cette action est irréversible.');">
+                                            <input type="hidden" name="token" value="{{ securityToken }}">
+                                            <input type="hidden" name="id" value="{{ item.id }}">
+                                            <button type="submit" class="btn btn-danger me-2"><i class="fa-solid fa-trash"></i></button>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>

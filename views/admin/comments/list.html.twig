@@ -32,9 +32,23 @@
                             <tr>
                                 <td>{{ item.post_title|slice(0, 100) }}</td>
                                 {% if item.validation == 1 %}
-                                    <td class="text-center text-success fs-3"><i class="fa-solid fa-circle-check"></i></td>
+                                    <td class="text-center text-success fs-3">
+                                        <form class="d-inline-block" action="{{ baseurl }}/admin/comments/updateState" method="POST">
+                                            <input type="hidden" name="token" value="{{ securityToken }}">
+                                            <input type="hidden" name="validation" value="0">
+                                            <input type="hidden" name="id" value="{{ item.id }}">
+                                            <button type="submit" class="btn btn-status"><i class="fa-solid fa-circle-check text-success"></i></button>
+                                        </form>
+                                    </td>
                                 {% else %}
-                                    <td class="text-center text-danger fs-3"><i class="fa-solid fa-circle-xmark"></i></td>
+                                    <td class="text-center fs-3">
+                                        <form class="d-inline-block" action="{{ baseurl }}/admin/comments/updateState" method="POST">
+                                            <input type="hidden" name="token" value="{{ securityToken }}">
+                                            <input type="hidden" name="validation" value="1">
+                                            <input type="hidden" name="id" value="{{ item.id }}">
+                                            <button type="submit" class="btn btn-status"><i class="fa-solid fa-circle-xmark text-danger"></i></button>
+                                        </form>
+                                    </td>
                                 {% endif %}
                                 <td>{{ item.content }}</td>
                                 <td class="text-center">{{ item.author_name }}</td>
@@ -43,7 +57,11 @@
                                 <td class="text-center">{{ item.id }}</td>
                                 <td>
                                     <div class="d-flex">
-                                        <a class="btn btn-danger" href=""><i class="fa-solid fa-trash"></i></a>
+                                        <form class="d-inline-block" action="{{ baseurl }}/admin/comments/delete" method="POST" onsubmit="return confirm('Voulez-vous vraiment supprimer ce commentaire ?');">
+                                            <input type="hidden" name="token" value="{{ securityToken }}">
+                                            <input type="hidden" name="id" value="{{ item.id }}">
+                                            <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>
