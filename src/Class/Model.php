@@ -22,7 +22,7 @@ class Model
     }
 
     /**
-     * @param int $limit
+     * Read data
      */
     public function read(int $limit = 5): array|object|bool
     {
@@ -38,7 +38,6 @@ class Model
 
     /**
      * Create an item
-     * @param array $fields
      */
     public function create(array $fields = []): array|object|bool
     {
@@ -67,8 +66,6 @@ class Model
 
     /**
      * Update an item
-     * @param int $id
-     * @param array $fields
      */
     public function update(int $id, array $fields = []): array|object|bool
     {
@@ -103,7 +100,6 @@ class Model
 
     /**
      * Delete an item
-     * @param int $id
      */
     public function delete(int $id): bool
     {
@@ -130,9 +126,6 @@ class Model
 
     /**
      * Custom query
-     * @param string $statement
-     * @param array|null $values
-     * @param bool $one
      */
     public function query(string $statement, array $values = null, bool $one = false): array|object|bool
     {
@@ -144,4 +137,11 @@ class Model
         return $this->db->query($statement, $one);
     }
     
+    /**
+     * Get the last insert id in DB
+     */
+    public function lastId(): string|false
+    {
+        return $this->db->getLastInsertId();
+    }
 }
