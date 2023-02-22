@@ -50,7 +50,7 @@
                                         </form>
                                     </td>
                                 {% endif %}
-                                <td>{{ item.content }}</td>
+                                <td>{{ item.content|raw }}</td>
                                 <td class="text-center">{{ item.author_name }}</td>
                                 <td class="text-center">{{ item.created_at|date('d-m-Y à H:i') }}</td>
                                 <td class="text-center">{{ item.update_at|date('d-m-Y à H:i') }}</td>
