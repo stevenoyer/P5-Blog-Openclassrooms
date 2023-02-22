@@ -41,7 +41,7 @@
 
         <div id="contact" class="contact mt-5">
             <h2>Me contacter</h2>
-            <form action="/contact" method="POST">
+            <form action="{{ baseurl }}/contact" method="POST">
                 <div class="mb-3">
                     <label for="nameInput" class="form-label">Nom et prénom</label>
                     <input type="text" class="form-control" name="name" id="nameInput" placeholder="Doe John">
@@ -62,8 +62,22 @@
                     <textarea class="form-control" name="message" id="messageText" rows="4"></textarea>
                 </div>
 
+                {% if success.contact %}
+                    <div class="mb-3">
+                        <p><i class="text-success">{{ success.contact }}</i></p>
+                    </div>
+                {% endif %}
+
+                {% if error.contact %}
+                    <div class="mb-3">
+                        <p><i class="text-danger">{{ error.login }}</i></p>
+                    </div>
+                {% endif %}
+
+                <input type="hidden" name="token" value="{{ securityToken }}">
+
                 <div class="mb-3 d-flex justify-content-end">
-                    <input class="btn-primary-blog mt-3" type="submit" name="submit" value="Envoyer">
+                    <input class="btn-primary-blog mt-3" type="submit" value="Envoyer">
                 </div>
             </form>
         </div>
