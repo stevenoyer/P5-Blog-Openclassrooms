@@ -109,6 +109,45 @@ class AdminController extends Controller
         return $slug;
     }
 
+    /**
+     * Check item data
+     */
+    public function checkPostArticle(array $post, bool $edit = false): string|array
+    {
+        $this->checkToken();
+
+        if (empty($post['slug']))
+        {
+            $post['slug'] = $this->generateSlugByTitle($post['title']);
+        }
+
+        $validator = new FormValidatorHtml($post);
+        if (!$validator->checkEmpty())
+        {
+            return $this->render('admin/articles/edit.html.twig', ['error' => 'Veuillez vérifier toutes les informations du formulaire.']);
+        }
+
+        $data = $validator->validate();
+        $articles_exists = $this->getModel('articles')->find($data['slug'], 'slug', false);
+        
+        if (!empty($articles_exists))
+        {
+            if (!$edit)
+            {
+                return $this->render('admin/articles/edit.html.twig', ['error' => 'Un article existe déjà avec ce slug.', 'item' => $data]);
+            }
+        }
+
+        return [
+            'title' => $data['title'],
+            'state' => $data['state'],
+            'slug' => $data['slug'],
+            'introtext' => $data['introtext'],
+            'content' => $data['content'],
+            'author' => $_SESSION['id'],
+        ];
+    }
+
     public function createArticle(): string|bool
     {
         $this->checkAdmin();
@@ -117,38 +156,20 @@ class AdminController extends Controller
         {
             $this->checkToken();
 
-            if (empty($_POST['slug']))
+            $article = $this->checkPostArticle($_POST, false);
+            if (is_array($article))
             {
-                $_POST['slug'] = $this->generateSlugByTitle($_POST['title']);
+                if ($this->getModel('articles')->create($article))
+                {
+                    return $this->redirect(BASEURL . '/admin/articles');
+                }
             }
 
-            $validator = new FormValidatorHtml($_POST);
-            if (!$validator->checkEmpty())
+            if (is_string($article))
             {
-                return $this->render('admin/articles/edit.html.twig', ['error' => 'Veuillez vérifier toutes les informations du formulaire.']);
+                return $article;
             }
 
-            $data = $validator->validate();
-            $articles_exists = $this->getModel('articles')->find($data['slug'], 'slug', false);
-            
-            if (!empty($articles_exists))
-            {
-                return $this->render('admin/articles/edit.html.twig', ['error' => 'Un article existe déjà avec ce slug.', 'item' => $data]);
-            }
-
-            $article = [
-                'title' => $data['title'],
-                'state' => $data['state'],
-                'slug' => $data['slug'],
-                'introtext' => $data['introtext'],
-                'content' => $data['content'],
-                'author' => $_SESSION['id'],
-            ];
-
-            if ($this->getModel('articles')->create($article))
-            {
-                return $this->redirect(BASEURL . '/admin/articles');
-            }
         }
 
         return $this->render('admin/articles/edit.html.twig', []);
@@ -171,38 +192,21 @@ class AdminController extends Controller
         {
             $this->checkToken();
 
-            if (empty($_POST['slug']))
+            $article = $this->checkPostArticle($_POST, true);
+            if (is_array($article))
             {
-                $_POST['slug'] = $this->generateSlugByTitle($_POST['title']);
+                if ($this->getModel('articles')->update($id, $article))
+                {
+                    $article['id'] = $id;
+                    return $this->render('admin/articles/edit.html.twig', ['item' => $article]);
+                }
             }
 
-            $validator = new FormValidatorHtml($_POST);
-            if (!$validator->checkEmpty())
+            if (is_string($article))
             {
-                return $this->render('admin/articles/edit.html.twig', ['error' => 'Veuillez vérifier toutes les informations du formulaire.']);
+                return $article;
             }
 
-            $data = $validator->validate();
-            $articles_exists = $this->getModel('articles')->find($data['slug'], 'slug', false);
-            
-            if (!empty($articles_exists))
-            {
-                return $this->render('admin/articles/edit.html.twig', ['error' => 'Un article existe déjà avec ce slug.', 'item' => $data]);
-            }
-
-            $article = [
-                'title' => $data['title'],
-                'state' => $data['state'],
-                'slug' => $data['slug'],
-                'introtext' => $data['introtext'],
-                'content' => $data['content'],
-                'author' => $_SESSION['id'],
-            ];
-            if ($this->getModel('articles')->update($id, $article))
-            {
-                $data['id'] = $id;
-                return $this->render('admin/articles/edit.html.twig', ['item' => $data]);
-            }
         }
 
         $article = $this->getModel('articles')->find($id, 'id');
