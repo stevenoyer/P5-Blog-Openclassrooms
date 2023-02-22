@@ -4,6 +4,7 @@ namespace So\Blog\Controller;
 
 use So\Blog\Auth\Auth;
 use So\Blog\Class\Controller;
+use So\Blog\Helper\MailHelper;
 use So\Blog\HTML\FormValidatorHtml;
 use stdClass;
 
@@ -82,6 +83,11 @@ class AuthController extends Controller
             return $this->render('auth/auth.html.twig', ['error' => ['login' => 'L\'utilisateur ou le mot de passe est incorrect.']]);
         }
 
+        if ($user->validate != 1)
+        {
+            return $this->render('auth/auth.html.twig', ['error' => ['login' => 'L\'utilisateur n\'a pas été validé. Veuillez confirmer votre compte avec l\'e-mail qui vous a été envoyé lors de votre inscription.']]);
+        }
+
         if ($this->getAuth()->login($user))
         {
             $this->redirect(BASEURL . '/profil');
@@ -147,20 +153,26 @@ class AuthController extends Controller
             return $this->render('auth/auth.html.twig', ['error' => ['register' => 'Vos mots de passes ne correspondent pas.']]);
         }
 
-        // We remove potential values ​​added by the user
-        unset($_POST['is_admin']);
-        unset($_POST['validate']);
-        unset($_POST['id']);
-
-        unset($_POST['token']);
-        unset($_POST['submit']);
         $validator = new FormValidatorHtml($_POST);
         $data = $validator->validate();
 
-        if ($this->getAuth()->register($data))
+        $user = [
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => $data['password'],
+            'token_validation' => sha1(time()),
+            'token_expiration' => time() + 7200
+        ];
+
+        if ($this->getAuth()->register($user))
         {
-            $this->redirect(BASEURL . '/auth');
-            return true;
+            $helper = new MailHelper;
+            if ($helper->sendMailConfirmation($user))
+            {
+                return $this->render('auth/auth.html.twig', ['success' => ['register' => 'Votre compte a bien été créé, un e-mail de confirmation vous a été envoyé : ' . $data['email'] . '.']]);
+            }
+
+            return $this->render('auth/auth.html.twig', ['error' => ['register' => 'Un problème est survenue lors de l\'envoi du mail de confirmation à l\'adresse suivante : ' . $data['email'] . '.']]);
         }
         
         return $this->render('auth/auth.html.twig', ['error' => ['register' => 'Un problème est survenu lors de l\'inscription.']]);
@@ -182,6 +194,21 @@ class AuthController extends Controller
             $this->redirect(BASEURL . '/');
             return true;
         }
+    }
+
+    /**
+     * This function confirm user account
+     */
+    public function confirm(string $token): string
+    {
+        $user = $this->getModel('users')->find($token, 'token_validation');
+        if (time() > $user->token_expiration)
+        {
+            return $this->render('auth/auth.html.twig', ['error' => ['register' => 'Le token a expiré, veuillez contacter un administrateur pour qu\'il valide votre compte.']]);
+        }
+
+        $this->getModel('users')->update($user->id, ['validate' => 1, 'token_validation' => null, 'token_expiration' => null]);
+        return $this->render('auth/auth.html.twig', ['success' => ['login' => 'Votre compte a bien validé, veuillez vous connecter.']]);
     }
 
 }
