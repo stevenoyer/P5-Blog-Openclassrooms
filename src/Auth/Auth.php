@@ -46,11 +46,14 @@ class Auth implements AuthInterface
      */
     public function register(array|object $params = []): bool
     {
-        unset($params['confirm_password']);
         $hash = $this->pwdHash($params['password']);
         $params['password'] = $hash;
-        $params['is_admin'] = 0;
-        $params['validate'] = 0;
+
+        if (!$this->isAdmin())
+        {
+            $params['validate'] = 0;
+            $params['is_admin'] = 0;
+        }
 
         return $this->model->create($params);
     }
@@ -103,6 +106,11 @@ class Auth implements AuthInterface
      */
     public function isAdmin(): bool
     {
+        if (empty($_SESSION['id']))
+        {
+            return false;
+        }
+
         if ($this->model->find($_SESSION['id'], 'id')->is_admin != 1)
         {
             $_SESSION['is_admin'] = 0;
