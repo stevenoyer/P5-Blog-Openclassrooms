@@ -191,6 +191,22 @@ hr {
     margin: 10px 0;
 }
 
+.btn-status {
+    border-radius: 0;
+    border: none;
+    outline: none;
+}
+
+.btn-status:focus {
+    border-radius: 0;
+    border: none;
+    outline: none;
+}
+
+.btn-status i {
+    font-size: 2em;
+}
+
 @media screen and (min-width: 960px) {
     .admin-menu-container nav ul {
         flex-direction: row;
