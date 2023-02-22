@@ -47,12 +47,12 @@
                                 <tbody>
                                     {% for comment in comments %}
                                     <tr>
-                                        <td>{{ comment.post_title|slice(0, 100) }}</td>
+                                        <td>{{ comment.post_title|slice(0, 100)|raw }}</td>
                                         <td>
                                             {% if comment.validation == 0 %}
-                                                <i class="text-secondary">{{ comment.content }} (Non validé)</i>
+                                                <i class="text-secondary">{{ comment.content|raw }} (Non validé)</i>
                                             {% else %}
-                                                {{ comment.content }}
+                                                {{ comment.content|raw }}
                                             {% endif %}
 
                                             <div class="mt-5 collapse" id="comment-{{ comment.id }}">
@@ -60,7 +60,7 @@
                                                 <form class="mt-2" action="{{ baseurl }}/profil/updateComment/{{ comment.id }}" method="POST">
                                                     <div class="mb-3">
                                                         <label for="content" class="form-label">Modification de votre commentaire</label>
-                                                        <textarea class="form-control" id="content" name="content" rows="3">{{ comment.content }}</textarea>
+                                                        <textarea class="form-control" id="content" name="content" rows="3">{{ comment.content|raw }}</textarea>
                                                     </div>
 
                                                     <p class="text-warning">
@@ -81,7 +81,7 @@
                                         <td>
                                             <div class="d-flex">
                                                 <button class="btn btn-primary me-3" type="button" data-bs-toggle="collapse" data-bs-target="#comment-{{ comment.id }}" aria-expanded="false" aria-controls="comment-{{ comment.id }}"><i class="fa-solid fa-pen"></i></button>
-                                                <form class="d-inline-block" action="{{ baseurl }}/profil/deleteComment/{{ comment.id }}" method="POST">
+                                                <form class="d-inline-block" action="{{ baseurl }}/profil/deleteComment/{{ comment.id }}" method="POST" onsubmit="return confirm('Voulez-vous vraiment supprimer ce commentaire ?');">
                                                     <input type="hidden" name="token" value="{{ securityToken }}">
                                                     <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
                                                 </form>
