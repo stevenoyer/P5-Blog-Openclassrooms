@@ -53,7 +53,7 @@
                             </div>
 
                             {% autoescape %}
-                                <p>{{ comment.content }}</p>
+                                <p>{{ comment.content|raw }}</p>
                             {% endautoescape %}
 
                             {% if comment.author == session.id and session.id %}
@@ -62,7 +62,7 @@
                                     <form class="mt-5" action="{{ baseurl }}/article/{{ post.id }}-{{ post.slug }}/comments/{{ comment.id }}" method="POST">
                                         <div class="mb-3">
                                             <label for="content" class="form-label">Modification de votre commentaire</label>
-                                            <textarea class="form-control" id="content" name="content" rows="3">{{ comment.content }}</textarea>
+                                            <textarea class="form-control" id="content" name="content" rows="3">{{ comment.content|raw }}</textarea>
                                         </div>
 
                                         <p class="text-warning">
