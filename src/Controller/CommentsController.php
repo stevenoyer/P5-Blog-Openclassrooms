@@ -57,12 +57,11 @@ class CommentsController extends Controller
     }
 
     /**
-     * Process update comment by slug article and comment id
+     * Check comments data
      */
-    public function update(string $slug, int $id_comment): string|bool
+    public function checkCommentsData(string $slug, int $id_comment, array $post): bool
     {
         $auth = new Auth();
-        $model = $this->getModel();
         $id = (int) explode('-', $slug, 2)[0];
 
         if (empty($id))
@@ -75,12 +74,12 @@ class CommentsController extends Controller
             return $this->redirect(BASEURL . '/article/' . $slug);
         }
 
-        if (empty($_POST['token']))
+        if (empty($post['token']))
         {
             return $this->redirect(BASEURL . '/article/' . $slug);
         }
 
-        if (!$this->csrf->verif($_POST['token']))
+        if (!$this->csrf->verif($post['token']))
         {
             return $this->redirect(BASEURL . '/article/' . $slug);
         }
@@ -89,6 +88,19 @@ class CommentsController extends Controller
         {
             return $this->redirect(BASEURL . '/auth');
         }
+
+        return true;
+    }
+
+    /**
+     * Process update comment by slug article and comment id
+     */
+    public function update(string $slug, int $id_comment): string|bool
+    {
+        $auth = new Auth();
+        $model = $this->getModel();
+
+        $this->checkCommentsData($slug, $id_comment, $_POST);
 
         $validator = new FormValidatorHtml($_POST);
         $data = $validator->validate();
@@ -113,34 +125,10 @@ class CommentsController extends Controller
      */
     public function delete(string $slug, int $id_comment): string|bool
     {
-        $auth = new Auth();
         $model = $this->getModel();
         $id = (int) explode('-', $slug, 2)[0];
 
-        if (empty($id))
-        {
-            return $this->redirect(BASEURL . '/article/' . $slug);
-        }
-
-        if (empty($id_comment))
-        {
-            return $this->redirect(BASEURL . '/article/' . $slug);
-        }
-
-        if (empty($_POST['token']))
-        {
-            return $this->redirect(BASEURL . '/article/' . $slug);
-        }
-
-        if (!$this->csrf->verif($_POST['token']))
-        {
-            return $this->redirect(BASEURL . '/article/' . $slug);
-        }
-
-        if (!$auth->isConnected())
-        {
-            return $this->redirect(BASEURL . '/auth');
-        }
+        $this->checkCommentsData($id, $id_comment, $_POST);
         
         if ($model->delete($id_comment))
         {
