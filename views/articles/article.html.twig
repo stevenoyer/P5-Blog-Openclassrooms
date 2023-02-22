@@ -7,10 +7,14 @@
 {% block main %}
     <div class="container-fluid container">
         <div class="articles mt-5">
-            <h1 class="text-center">{{ post.title }}</h1>
+            {% autoescape %}
+                <h1 class="text-center">{{ post.title|raw }}</h1>
+            {% endautoescape %}
             <div class="mt-5">
-                <p>{{ post.introtext }}</p>
-                <p>{{ post.content }}</p>
+                {% autoescape %}
+                    <p>{{ post.introtext|raw }}</p>
+                    <p>{{ post.content|raw }}</p>
+                {% endautoescape %}
             </div>
             <div>
                 <i>Autheur : {{ post.author_name }}</i>
@@ -48,9 +52,11 @@
                                 {% endif %}
                             </div>
 
-                            <p>{{ comment.content }}</p>
+                            {% autoescape %}
+                                <p>{{ comment.content }}</p>
+                            {% endautoescape %}
 
-                            {% if comment.author == session.id %}
+                            {% if comment.author == session.id and session.id %}
                                 <div class="mt-5 collapse" id="comment-{{ comment.id }}">
                                     <hr>
                                     <form class="mt-5" action="{{ baseurl }}/article/{{ post.id }}-{{ post.slug }}/comments/{{ comment.id }}" method="POST">
@@ -73,7 +79,7 @@
                             {% endif %}
                         </div>
 
-                        {% if comment.author == session.id %}
+                        {% if comment.author == session.id and session.id %}
                             <div class="col-1">
                                 <div class="text-center">
                                     <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#comment-{{ comment.id }}" aria-expanded="false" aria-controls="comment-{{ comment.id }}"><i class="fa-solid fa-pen"></i></button>

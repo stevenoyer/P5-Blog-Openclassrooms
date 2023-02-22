@@ -38,18 +38,36 @@
                                     <a href="{{ baseurl }}/admin/articles/edit/{{ item.id }}">{{ item.title }}</a>
                                 </td>
                                 {% if item.state == 1 %}
-                                    <td class="text-center text-success fs-3"><i class="fa-solid fa-circle-check"></i></td>
+                                    <td class="text-center fs-3">
+                                        <form class="d-inline-block" action="{{ baseurl }}/admin/articles/updateState" method="POST">
+                                            <input type="hidden" name="token" value="{{ securityToken }}">
+                                            <input type="hidden" name="state" value="0">
+                                            <input type="hidden" name="id" value="{{ item.id }}">
+                                            <button type="submit" class="btn btn-status"><i class="fa-solid fa-circle-check text-success"></i></button>
+                                        </form>
+                                    </td>
                                 {% else %}
-                                    <td class="text-center text-danger fs-3"><i class="fa-solid fa-circle-xmark"></i></td>
+                                    <td class="text-center fs-3">
+                                        <form class="d-inline-block" action="{{ baseurl }}/admin/articles/updateState" method="POST">
+                                            <input type="hidden" name="token" value="{{ securityToken }}">
+                                            <input type="hidden" name="state" value="1">
+                                            <input type="hidden" name="id" value="{{ item.id }}">
+                                            <button type="submit" class="btn btn-status"><i class="fa-solid fa-circle-xmark text-danger"></i></button>
+                                        </form>
+                                    </td>
                                 {% endif %}
-                                <td>{{ item.introtext|slice(0, 50) }}...</td>
+                                <td>{{ item.introtext|slice(0, 50)|raw }}...</td>
                                 <td class="text-center">{{ item.author_name }}</td>
                                 <td class="text-center">{{ item.created_at|date('d-m-Y à H:i') }}</td>
                                 <td class="text-center">{{ item.id }}</td>
                                 <td>
                                     <div class="d-flex">
-                                        <a class="btn btn-primary me-2" href=""><i class="fa-solid fa-pen"></i></a>
-                                        <a class="btn btn-danger" href=""><i class="fa-solid fa-trash"></i></a>
+                                        <a class="btn btn-primary me-2" href="{{ baseurl }}/admin/articles/edit/{{ item.id }}"><i class="fa-solid fa-pen"></i></a>
+                                        <form class="d-inline-block" action="{{ baseurl }}/admin/articles/delete" method="POST" onsubmit="return confirm('Voulez-vous vraiment supprimer cet article ? Tous les commentaires de cet article seront supprimés ! Cette action est irréversible.');">
+                                            <input type="hidden" name="token" value="{{ securityToken }}">
+                                            <input type="hidden" name="id" value="{{ item.id }}">
+                                            <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>

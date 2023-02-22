@@ -4,6 +4,7 @@ namespace So\Blog\Controller;
 
 use So\Blog\Auth\Auth;
 use So\Blog\Class\Controller;
+use So\Blog\Class\Mail;
 use So\Blog\HTML\FormValidatorHtml;
 
 class UsersController extends Controller
@@ -179,7 +180,13 @@ class UsersController extends Controller
         $validator = new FormValidatorHtml($_POST);
         $data = $validator->validate();
 
-        $comment = ['content' => $data['content'], 'validation' => 0];
+        $valdiation = 0;
+        if ($auth->isAdmin())
+        {
+            $valdiation = 1;
+        }
+
+        $comment = ['content' => $data['content'], 'validation' => $valdiation];
         if ($model->update($id_comment, $comment))
         {
             return $this->redirect(BASEURL . '/profil');

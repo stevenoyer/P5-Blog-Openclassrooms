@@ -13,19 +13,19 @@
 
         <div class="mt-5">
             <h1 class="text-center">Ajouter un nouvel utilisateur</h1>
-            <form class="mt-2" action="{{ baseurl }}/admin/articles/editArticle" method="POST">
+            <form class="mt-2" action="{{ baseurl }}/admin/users/new" method="POST">
                 <div class="row">
                     <div class="col-12 col-md-6">
                         <div class="mb-3">
                             <label for="name" class="form-label">Nom et prénom</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Doe John">
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Doe John" value="{{ user.name }}">
                         </div>
                     </div>
 
                     <div class="col-12 col-md-6">
                         <div class="mb-3">
                             <label for="email" class="form-label">E-mail</label>
-                            <input type="text" class="form-control" id="email" name="email" value="{{ item.slug }}" placeholder="john.doe@example.com">
+                            <input type="text" class="form-control" id="email" name="email" value="{{ user.email }}" placeholder="john.doe@example.com">
                         </div>
                     </div>
 
@@ -54,6 +54,12 @@
                         <input type="password" class="form-control" name="password" id="passwordInput" placeholder="*******************">
                     </div>
                 </div>
+
+                {% if error %}
+                    <div class="mb-3">
+                        <p><i class="text-danger">{{ error }}</i></p>
+                    </div>
+                {% endif %}
 
                 <input type="hidden" name="token" value="{{ securityToken }}">
                 <div class="mb-3 d-flex justify-content-end">

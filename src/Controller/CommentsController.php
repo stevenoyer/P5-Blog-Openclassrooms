@@ -38,11 +38,16 @@ class CommentsController extends Controller
             return $this->redirect(BASEURL . '/auth');
         }
 
-        unset($_POST['token']);
         $validator = new FormValidatorHtml($_POST);
         $data = $validator->validate();
 
-        $comment = ['content' => $data['content'], 'author' => $_SESSION['id'], 'post_id' => $id, 'validation' => 0];
+        $valdiation = 0;
+        if ($auth->isAdmin())
+        {
+            $valdiation = 1;
+        }
+
+        $comment = ['content' => $data['content'], 'author' => $_SESSION['id'], 'post_id' => $id, 'validation' => $valdiation];
         if ($model->create($comment))
         {
             return $this->redirect(BASEURL . '/article/' . $slug);
@@ -88,7 +93,13 @@ class CommentsController extends Controller
         $validator = new FormValidatorHtml($_POST);
         $data = $validator->validate();
 
-        $comment = ['content' => $data['content'], 'validation' => 0];
+        $valdiation = 0;
+        if ($auth->isAdmin())
+        {
+            $valdiation = 1;
+        }
+
+        $comment = ['content' => $data['content'], 'validation' => $valdiation];
         if ($model->update($id_comment, $comment))
         {
             return $this->redirect(BASEURL . '/article/' . $slug);

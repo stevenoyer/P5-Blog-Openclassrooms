@@ -17,7 +17,7 @@
             {% else %}
                 <h1 class="text-center mb-5">Édition de l'article <br>{{ item.title }}</h1>
             {% endif %}
-            <form class="mt-2" action="{{ baseurl }}/admin/articles/new" method="POST">
+            <form class="mt-2" action="{{ baseurl }}{% if item.id %}/admin/articles/edit/{{ item.id }} {% else %}/admin/articles/new{% endif %}" method="POST">
                 <div class="row">
                     <div class="col-12 col-md-6">
                         <div class="mb-3">
@@ -45,12 +45,12 @@
 
                     <div class="mb-4">
                         <label for="introtext" class="form-label">Texte d'introduction</label>
-                        <textarea class="form-control" id="introtext" name="introtext" rows="2" placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit." required>{{ item.introtext }}</textarea>
+                        <textarea class="form-control" id="introtext" name="introtext" rows="2" placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit." required>{{ item.introtext|raw }}</textarea>
                     </div>
 
                     <div class="mb-4">
                         <label for="content" class="form-label">Description</label>
-                        <textarea class="form-control" id="content" name="content" rows="5" placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam porta suscipit urna vitae euismod. Praesent ac ullamcorper justo, eu sollicitudin tortor. Suspendisse sit amet fringilla erat. Nam porta porttitor augue, sed rhoncus lorem. Nullam sodales ipsum et ligula lacinia tempus. Nullam fringilla libero non pretium consectetur. Praesent ut odio leo. Fusce elementum porttitor massa ac elementum. Integer at fermentum mi. Morbi ut interdum purus, sit amet molestie ex. Nunc vitae efficitur justo. Curabitur ac nulla purus. Sed non sollicitudin odio. Donec viverra sagittis diam, at consectetur mi ornare vel. Maecenas lacinia quam sed luctus scelerisque." required>{{ item.content }}</textarea>
+                        <textarea class="form-control" id="content" name="content" rows="5" placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam porta suscipit urna vitae euismod. Praesent ac ullamcorper justo, eu sollicitudin tortor. Suspendisse sit amet fringilla erat. Nam porta porttitor augue, sed rhoncus lorem. Nullam sodales ipsum et ligula lacinia tempus. Nullam fringilla libero non pretium consectetur. Praesent ut odio leo. Fusce elementum porttitor massa ac elementum. Integer at fermentum mi. Morbi ut interdum purus, sit amet molestie ex. Nunc vitae efficitur justo. Curabitur ac nulla purus. Sed non sollicitudin odio. Donec viverra sagittis diam, at consectetur mi ornare vel. Maecenas lacinia quam sed luctus scelerisque." required>{{ item.content|raw }}</textarea>
                     </div>
                 </div>
 
