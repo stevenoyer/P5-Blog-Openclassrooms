@@ -23,7 +23,7 @@ class HomeController extends Controller
     /**
      * Contact form processing
      */
-    public function contact()
+    public function contact(): string
     {
         $model = $this->getModel('articles');
         $data = $model->read(3);
