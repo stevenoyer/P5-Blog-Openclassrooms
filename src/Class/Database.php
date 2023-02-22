@@ -99,4 +99,11 @@ class Database
         return $data;
     }
     
+    /**
+     * Get the last insert id in DB
+     */
+    public function getLastInsertId(): string|false
+    {
+        return $this->getDB()->lastInsertId();
+    }
 }

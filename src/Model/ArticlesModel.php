@@ -25,7 +25,7 @@ class ArticlesModel extends Model
         }
 
         return $this->query("
-            SELECT p.*, u.name AS author_name
+            SELECT p.*, COALESCE(u.name, 'Utilisateur supprimé') AS author_name
             FROM $this->table AS p
             LEFT JOIN users AS u ON u.id = p.author
             $state
@@ -40,7 +40,7 @@ class ArticlesModel extends Model
     public function find(mixed $search, string $type = 'id', bool $one = true): array|object|bool
     {
         return $this->query("
-            SELECT p.*, u.name AS author_name
+            SELECT p.*, COALESCE(u.name, 'Utilisateur supprimé') AS author_name
             FROM $this->table AS p
             LEFT JOIN users AS u ON u.id = p.author
             WHERE p.$type = ? AND p.state = ?

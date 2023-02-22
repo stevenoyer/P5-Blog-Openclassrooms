@@ -22,6 +22,14 @@ class FormValidatorHtml
         $post = [];
         foreach ($this->post as $key => $data)
         {
+            if ($key == 'email')
+            {
+                if (!filter_var($data, FILTER_VALIDATE_EMAIL))
+                {
+                    return ['error' => true, [$key => $data]];
+                }
+            }
+            
             $data = trim($data); // Delete inutile spaces
             $data = stripslashes($data); // Remove \ from string
             $data = strip_tags($data); // Remove tag HTML & PHP

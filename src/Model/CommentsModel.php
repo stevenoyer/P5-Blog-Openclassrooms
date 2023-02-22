@@ -20,7 +20,7 @@ class CommentsModel extends Model
         }
 
         return $this->query("
-            SELECT c.*, u.name AS author_name, p.title as post_title
+            SELECT c.*, COALESCE(u.name, 'Utilisateur supprimé') AS author_name, p.title as post_title
             FROM $this->table AS c
             LEFT JOIN users AS u ON u.id = c.author
             LEFT JOIN posts AS p ON p.id = c.post_id
@@ -35,7 +35,7 @@ class CommentsModel extends Model
     public function findCommentsByPostId(int $id): mixed
     {
         return $this->query("
-            SELECT c.*, u.name AS author_name
+            SELECT c.*, COALESCE(u.name, 'Utilisateur supprimé') AS author_name
             FROM $this->table AS c
             LEFT JOIN users AS u ON u.id = c.author
             WHERE c.post_id = ? AND validation = ?
