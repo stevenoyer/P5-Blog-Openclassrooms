@@ -6,7 +6,8 @@ use So\Blog\Router\Router;
 use Tracy\Debugger;
 
 define('ROOT', dirname(__DIR__));
-define('BASEURL', 'http://' . $_SERVER['HTTP_HOST'] . rtrim(dirname($_SERVER['PHP_SELF']), '/\\'));
+$http_type = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https' : 'http';
+define('BASEURL', $http_type . '://' . $_SERVER['HTTP_HOST'] . rtrim(dirname($_SERVER['PHP_SELF']), '/\\'));
 define('CONFIG', dirname(__DIR__) . '/configuration.php');
 
 // Require autoload
@@ -85,7 +86,11 @@ $router->post('/admin/users/updateRole', 'AdminController@updateUserRole');
 $router->post('/admin/users/updateValidation', 'AdminController@updateUserValidation');
 
 // Processing the url
-$uri = str_replace(dirname($_SERVER['PHP_SELF']), '', $_SERVER['REQUEST_URI']);
+$uri = $_SERVER['REQUEST_URI'];
+if ($_SERVER['SERVER_NAME'] == 'localhost')
+{
+    $uri = '/' . trim(str_replace(dirname($_SERVER['PHP_SELF']), '', $_SERVER['REQUEST_URI']),  '/');
+}
 
 try 
 {
