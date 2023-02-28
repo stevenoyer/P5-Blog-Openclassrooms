@@ -3,8 +3,8 @@
 [![SymfonyInsight](https://insight.symfony.com/projects/f4fd9de2-a556-486e-a630-f3b0d571f414/big.svg)](https://insight.symfony.com/projects/f4fd9de2-a556-486e-a630-f3b0d571f414)
 
 ## [🛠️] NGINX Configuration
-```cmd
 Add the following configuration to your nginx server
+```cmd
 location / {
     try_files $uri $uri/ /index.php$is_args$args;
 }
