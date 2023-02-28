@@ -49,7 +49,7 @@ class Controller
             return new $model_name();
         }
 
-        $model_name = '\So\Blog\Model\\' . $model_name . 'Model';
+        $model_name = '\So\Blog\Model\\' . ucfirst($model_name) . 'Model';
         return new $model_name();
     }
 
