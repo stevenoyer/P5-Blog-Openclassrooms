@@ -37,13 +37,13 @@
                 <h2>Commentaires</h2>
                 {% for comment in comments %}
                     <div class="row mt-5">
-                        <div class="col-1">
-                            <div class="text-center">
+                        <div class="col-12 col-md-1">
+                            <div class="text-md-center">
                                 <img width="60" src="https://cdn-icons-png.flaticon.com/512/64/64572.png" alt="Photo de profil de {{ comment.author_name }}">
                             </div>
                         </div>
 
-                        <div class="col-10">
+                        <div class="col-12 col-md-11">
                             <div class="mb-3">
                                 <h3>{{ comment.author_name }}</h3>
                                 <span class="fw-bold">Créer le {{ comment.created_at|date('d-m-Y H:i') }}</span>
