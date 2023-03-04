@@ -33,7 +33,7 @@
         </div>
 
         <div class="comments mt-5">
-            {% if comments %}
+            {% if comments and post.id != 9 %}
                 <h2>Commentaires</h2>
                 {% for comment in comments %}
                     <div class="row mt-5">
@@ -43,7 +43,7 @@
                             </div>
                         </div>
 
-                        <div class="col-12 col-md-11">
+                        <div class="col-12 col-md-10">
                             <div class="mb-3">
                                 <h3>{{ comment.author_name }}</h3>
                                 <span class="fw-bold">Créer le {{ comment.created_at|date('d-m-Y H:i') }}</span>
@@ -80,7 +80,7 @@
                         </div>
 
                         {% if comment.author == session.id and session.id %}
-                            <div class="col-1">
+                            <div class="col-12 col-md-1">
                                 <div class="text-center">
                                     <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#comment-{{ comment.id }}" aria-expanded="false" aria-controls="comment-{{ comment.id }}"><i class="fa-solid fa-pen"></i></button>
                                     
@@ -97,7 +97,7 @@
 
             {% endif %}
 
-            {% if session.id %}
+            {% if session.id and post.id != 9 %}
                 <div class="mt-5">
                     <hr>
                     <form class="mt-5" action="{{ baseurl }}/article/{{ post.id }}-{{ post.slug }}/comments" method="POST">
